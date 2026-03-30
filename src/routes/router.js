@@ -1,13 +1,23 @@
 import { Router } from 'express';
 import Spark from '../models/spark.js'; // Importamos el modelo corregido
 
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const router = Router();
 
 // --- RUTAS DE NAVEGACIÓN (HTML/Status) --- 
 
-// Ruta de Inicio - Devuelve HTML (Requerimiento) 
+// Ruta de Inicio HTML optimizada con motor de plantillas 
 router.get('/', (req, res) => {
-    res.send('<h1>Página de Inicio</h1><p>Bienvenido al servidor de Spark.</p>');
+    res.render('index', {
+        nombreProyecto: 'Spark',
+        status: 'Online',
+        mensaje: 'Listo para encender nuevas ideas.'
+    });
 });
 
 // Ruta de Nosotros 

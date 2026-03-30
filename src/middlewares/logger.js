@@ -1,28 +1,34 @@
+
 import fs from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-// Configuración para obtener rutas en módulos ES
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// Definimos la ruta hacia tu carpeta existente
+const logFilePath = path.resolve('src/logs/access_log.json');
 
 const loggerMiddleware = async (req, res, next) => {
-    const ahora = new Date();
-    const fecha = ahora.toLocaleDateString();
-    const hora = ahora.toLocaleTimeString();
-    const ruta = req.originalUrl;
-
-    // Estructura requerida: fecha, hora, ruta accedida 
-    const lineaLog = `[${fecha} ${hora}] Acceso a: ${ruta}\n`;
+    const logEntry = {
+        method: req.method, // [cite: 22]
+        url: req.url,
+        at: new Date().toLocaleString(),
+        ip: req.ip
+    };
 
     try {
-        // Se guarda en la carpeta /logs 
-        await fs.appendFile(path.join(__dirname, '../logs/log.txt'), lineaLog);
+        // 1. Leer lo que ya existe (o crear un array vacío si no existe) 
+        const rawData = await fs.readFile(logFilePath, 'utf8').catch(() => '[]');
+        const logs = JSON.parse(rawData); // 
+
+        // 2. Agregar el nuevo evento
+        logs.push(logEntry);
+
+        // 3. Guardar en el archivo plano (Persistencia Módulo #6) 
+        await fs.writeFile(logFilePath, JSON.stringify(logs, null, 2));
     } catch (error) {
-        console.error("Error al escribir el log:", error);
+        console.error("Error escribiendo en logs:", error);
     }
 
-    next(); // Permite que la solicitud continúe a la ruta 
+    next(); // // Permite que la solicitud continúe a la ruta 
 };
 
 export default loggerMiddleware;
