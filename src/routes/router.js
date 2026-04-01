@@ -12,9 +12,7 @@ const router = Router();
 router.get('/', getIndex);
 router.get('/status', getStatus);
 
-
 // --- RUTAS DE NAVEGACIÓN (HTML/Status) --- 
-
 // Ruta de Inicio HTML optimizada con motor de plantillas 
 router.get('/', (req, res) => {
     res.render('index', {
@@ -23,12 +21,6 @@ router.get('/', (req, res) => {
         mensaje: 'Listo para encender nuevas ideas.'
     });
 });
-
-// Ruta de Nosotros 
-router.get('/nosotros', (req, res) => {
-    res.send('<h1>Página de Nosotros</h1>');
-});
-
 // Ruta de Status - Devuelve JSON (Requerimiento) 
 router.get('/status', (req, res) => {
     res.json({
@@ -39,18 +31,15 @@ router.get('/status', (req, res) => {
 });
 
 // --- RUTAS DE LA API (Persistencia con Sequelize) ---
-
 // RUTA PARA CREAR UNA NUEVA CHISPA
 router.post('/sparks', async (req, res) => {
     try {
         const { content, parentId } = req.body;
-
         // Creamos la chispa en la base de datos usando Sequelize
         const newSpark = await Spark.create({
             content,
             parentId: parentId || null // Si no viene parentId, es una publicación principal
         });
-
         res.status(201).json({
             message: '¡Chispa encendida con éxito!',
             data: newSpark
@@ -62,7 +51,6 @@ router.post('/sparks', async (req, res) => {
         if (error.name === 'SequelizeValidationError') {
             return res.status(400).json({ error: 'La chispa debe tener entre 1 y 280 caracteres.' });
         }
-
         res.status(500).json({ error: 'Hubo un problema al encender la chispa.' });
     }
 });
@@ -80,4 +68,10 @@ router.get('/sparks', async (req, res) => {
     }
 });
 
+//Proximamente
+router.get('/feed', (req, res) => res.render('feed', { sparks: [] })); // Aquí pasarás los datos de Sequelize
+router.get('/profile', (req, res) => res.render('profile'));
+router.get('/settings', (req, res) => res.render('settings'));
+
 export default router;
+
