@@ -1,12 +1,33 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Spark - Inicio</title>
-    <link rel="stylesheet" href="/css/style.css"> </head>
-<body>
-    <h1>Bienvenido a {{nombreProyecto}}</h1>
-    <p>Estado del sistema: <strong>{{status}}</strong></p>
-    <p>Tu chispa actual: {{mensaje}}</p>
-</body>
-</html>
+{{!-- 1. Cabecera Fija --}}
+<header class="welcome">
+    <h1>Bienvenido a SPARK ✨</h1>
+</header>
+
+<hr>
+
+{{!-- 2. Formulario para CREAR (C de CRUD) --}}
+<section class="spark-editor">
+    <h2>Publicar un nuevo mensaje</h2>
+    <form action="/postear" method="POST" class="form-post">
+        <textarea name="content" placeholder="Escribe aquí..." required></textarea>
+        <button type="submit" class="btn-primary">Lanzar Spark</button>
+    </form>
+</section>
+
+<hr>
+
+{{!-- 3. Lista para LEER (R de CRUD) --}}
+<section class="spark-feed">
+    <h3>Muro de publicaciones</h3>
+    
+    {{#if sparks.length}}
+        {{#each sparks}}
+        <div class="card">
+            <p>{{this.content}}</p>
+            <small>Publicado el: {{this.createdAt}}</small>
+        </div>
+        {{/each}}
+    {{else}}
+        <p>No hay publicaciones todavía.</p>
+    {{/if}}
+</section>

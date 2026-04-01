@@ -1,0 +1,17 @@
+<section class="post-box">
+    <form action="/api/sparks" method="POST">
+        <textarea name="content" placeholder="¿Qué estás pensando?" maxlength="280"></textarea>
+        <button type="submit">Spark!</button>
+    </form>
+</section>
+
+<section class="timeline">
+    {{#each sparks}}
+        <div class="spark-card">
+            <strong>@{{this.User.username}}</strong>
+            <p>{{this.content}}</p>
+            <span>{{this.createdAt}}</span>
+            <a href="/post/{{this.id}}">Ver detalles</a>
+        </div>
+    {{/each}}
+</section>

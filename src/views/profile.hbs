@@ -1,0 +1,11 @@
+<header class="profile-header">
+    <img src="/img/default-avatar.png" alt="Avatar">
+    <h1>{{user.name}}</h1>
+    <p>@{{user.username}}</p>
+</header>
+
+<h3>Mis publicaciones</h3>
+<div class="my-sparks">
+    {{#each userSparks}}
+        {{> sparkCard}} {{/each}}
+</div>
