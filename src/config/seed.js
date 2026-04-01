@@ -9,7 +9,7 @@ const seedDatabase = async () => {
         // --- LIMPIEZA ---
         // 'truncate' borra todos los registros y reinicia los contadores (IDs)
         await Spark.destroy({ where: {}, truncate: true, cascade: true });
-        console.log('🗑️ Base de datos limpiada.');
+        console.log(' Base de datos limpiada. 🗑️');
 
         // --- CARGA ---
         const initialSparks = [ // Datos de prueba (Chispas iniciales)
@@ -23,7 +23,7 @@ const seedDatabase = async () => {
         
         process.exit(0); // Cerrar el proceso exitosamente
     } catch (error) {
-        console.error('❌ Error en el proceso de seed:', error);
+        console.error('Error en el proceso de seed: ❌', error);
         process.exit(1);
     }
 };
