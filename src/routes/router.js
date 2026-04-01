@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import Spark from '../models/spark.js'; // Importamos el modelo corregido
-
+import Spark from '../models/spark.js'; 
+import { getIndex, getStatus } from '../controllers/sparkController.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -8,6 +8,10 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const router = Router();
+
+router.get('/', getIndex);
+router.get('/status', getStatus);
+
 
 // --- RUTAS DE NAVEGACIÓN (HTML/Status) --- 
 

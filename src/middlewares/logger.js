@@ -2,8 +2,28 @@
 import fs from 'fs/promises';
 import path from 'path';
 
+// Usamos path.resolve para asegurar que encuentre la carpeta logs desde la raíz
 const logFilePath = path.resolve('src/logs/log.txt');
 
+// --- TAREA: FUNCIÓN PARA SIMULAR 3 ACCESOS (Lección 5) ---
+export const simularAccesos = async () => {
+    const rutasSimuladas = ['/', '/status', '/public/index.html'];
+    try {
+        for (const ruta of rutasSimuladas) {
+            const ahora = new Date();
+            const fecha = ahora.toLocaleDateString('es-CL');
+            const hora = ahora.toLocaleTimeString('es-CL');
+            const logEntrada = `[SIMULADO] Fecha: ${fecha} | Hora: ${hora} | Ruta: ${ruta}\n`;
+            
+            await fs.appendFile(logFilePath, logEntrada);
+        }
+        console.log("Se han registrado 3 accesos simulados en logs ✅");
+    } catch (error) {
+        console.error("Error en la simulación de logs ❌:", error);
+    }
+};
+
+// --- MIDDLEWARE PARA REGISTRO REAL ---
 const loggerMiddleware = async (req, res, next) => {
     const ahora = new Date();
     const fecha = ahora.toLocaleDateString('es-CL');
@@ -22,4 +42,3 @@ const loggerMiddleware = async (req, res, next) => {
 };
 
 export default loggerMiddleware;
-
