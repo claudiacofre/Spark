@@ -1,21 +1,28 @@
-// --- CONTROLADOR DE SPARK ---
+import Spark from '../models/spark.js'; 
 
-export const getIndex = (req, res) => {
+// --- RUTAS DE NAVEGACIÓN (HTML/Status) --- 
+// Ruta de Inicio HTML optimizada con motor de plantillas 
+export const getIndex = async (req, res) => {
     try {
-        // Para el Módulo 6, enviamos datos estáticos que simulan la DB
+        // Busco las chispas en la BdD
+        const sparks = await Spark.findAll({
+            order: [['createdAt', 'DESC']],
+            limit: 10 // Solo las últimas 10
+        });
+
         res.render('index', { 
-            sparks: [
-                { content: '¡Mi primer Spark en Node!', createdAt: new Date().toLocaleString() },
-                { content: 'Configurando el Módulo 6 con éxito.', createdAt: new Date().toLocaleString() }
-            ] 
+            nombreProyecto: 'Spark', 
+            status: 'Online',
+            sparks: sparks // Paso los datos reales a la vista .hbs
         });
     } catch (error) {
-        res.status(500).send("Error al cargar la página de inicio.");
+        console.error("Error al cargar la página de inicio:❌", error);
+        res.status(500).send("Error al cargar la página de inicio.❌");
     }
 };
 
+// --- Ruta de Status - Devuelve JSON --- //  
 export const getStatus = (req, res) => {
-    // Requerimiento: Al menos una ruta debe devolver JSON 
     res.json({
         status: "ok",
         project: "SPARK",
@@ -24,9 +31,21 @@ export const getStatus = (req, res) => {
     });
 };
 
-export const postSpark = (req, res) => {
-    const { content } = req.body;
-    console.log(`Nuevo Spark recibido: ${content}`);
-    // En el Módulo 7 aquí usaremos Spark.create()
-    res.redirect('/'); 
+// --- Crear una nueva chispa (Post) ---
+export const postSpark = async (req, res) => {
+    try {
+        const { content, parentId } = req.body;
+        
+        // Uso el modelo Sequelize 
+        await Spark.create({
+            content,
+            parentId: parentId || null
+        });
+
+        // Después de crear, redirijo al inicio para ver la nueva chispa
+        res.redirect('/'); 
+    } catch (error) {
+        console.error('Error al crear la chispa:', error);
+        res.status(500).json({ error: 'Hubo un problema al encender la chispa. ❌' });
+    }
 };
