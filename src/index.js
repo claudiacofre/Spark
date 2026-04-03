@@ -1,15 +1,12 @@
 import express from "express";
-import fs from "fs/promises"; // Módulo para manipular archivos y directorios (Persistencia plana).
 import "dotenv/config"; // Manejo de variables de entorno para seguridad y portabilidad.
 import hbs from "hbs"; // Motor de plantillas para renderizar contenido dinámico en HTML.
-import path from "path"; // Módulo nativo para manejar rutas de carpetas
+import path from "path"; // Módulo nativo para manejar rutas de carpetas.
 import { fileURLToPath } from "url"; // Convierte URLs de módulos en rutas de sistema de archivos.
 
 // --- CONFIGURACIÓN DE RUTAS PARA ES MODULES --- Necesario para gestionar rutas absolutas en entornos de ejecución modernos.
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
-const rutaLog = path.join(__dirname, "log.txt");
 
 hbs.registerPartials(path.join(__dirname, "views/partials"));
 
@@ -22,7 +19,7 @@ import loggerMiddleware, { simularAccesos } from "./middlewares/logger.js"; // F
 const app = express();
 
 // --- CONFIGURACIÓN DEL PUERTO ---
-const PORT = process.env.PORT || 3333; // El puerto se obtiene de variables de entorno o usa el 3333 por defecto.
+const PORT = process.env.PORT || 3333; 
 
 // --- CONFIGURACIÓN DEL MOTOR DE PLANTILLAS (HBS) --- Define Handlebars como el motor para generar vistas dinámicas
 app.set("view engine", "hbs");
@@ -44,6 +41,9 @@ const startServer = async () => {
     await sequelize.sync({ alter: true });
     console.log("Conexión a la base de datos de Spark establecida. ✅");
 
+    // --- TAREA LECCIÓN 5: Ejecutar simulación de logs ---
+    await simularAccesos();
+
     // Inicia el servidor Node.js basado en el motor V8. (Solo UNA vez y después de la DB)
     app.listen(PORT, () => {
       console.log(
@@ -52,9 +52,9 @@ const startServer = async () => {
     });
   } catch (error) {
     // Manejo de errores fatales para evitar que la app colapse sin aviso.
-    console.error("Error fatal al iniciar el servidor. ❌:", error);
+    console.error("Error fatal al iniciar el servidor: ❌", error);
   }
 };
 
-// Encendemos Spark --- Ejecuta la lógica de inicio de Spark.
+// Encendemos Spark 
 startServer();
