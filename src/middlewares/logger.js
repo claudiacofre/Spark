@@ -1,8 +1,8 @@
 
-import fs from 'fs/promises';
+import fs from 'fs/promises'; // Módulo para manipular archivos y directorios (Persistencia plana).
 import path from 'path';
 
-// Usamos path.resolve para asegurar que encuentre la carpeta logs desde la raíz
+// Uso path.resolve para asegurar que encuentre la carpeta logs desde la raíz
 const logFilePath = path.resolve('src/logs/log.txt');
 
 // --- TAREA: FUNCIÓN PARA SIMULAR 3 ACCESOS (Lección 5) ---

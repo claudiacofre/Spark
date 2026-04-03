@@ -4,7 +4,7 @@ import sequelize from '../config/database.js'; // Conexión a la DB
 class Spark extends Model {}
 
 Spark.init({
-  // Identificador único (UUID es más pro para microblogging)
+  // Identificador único (UUID es mejor para microblogging)
   id: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
@@ -12,10 +12,10 @@ Spark.init({
   },
   // El contenido de la "Chispa"
   content: {
-    type: DataTypes.STRING(280), // Límite clásico de microblogging
+    type: DataTypes.STRING(300), // Límite clásico de microblogging
     allowNull: false,
     validate: {
-      len: [1, 280] // Valida que no esté vacío ni se pase del límite // No permite publicaciones vacías
+      len: [1, 300] // Valida que no esté vacío ni se pase del límite. (No permite publicaciones vacías, ni extensas)
     }
   }, 
   // Contador de interacciones
@@ -28,14 +28,14 @@ Spark.init({
     type: DataTypes.UUID,
     allowNull: true,
     references: {
-      model: 'sparks', // Nombre de la tabla en la DB (usualmente en minúsculas/plural)
+      model: 'sparks', // Nombre de la tabla en la BdD
       key: 'id'
     }
   }
 }, {
   sequelize,
   modelName: 'Spark',
-  tableName: 'sparks', // Forzamos el nombre de la tabla
+  tableName: 'sparks', // Fuerzo el nombre de la tabla
   underscored: true,   // Para que use created_at en lugar de createdAt
   timestamps: true  // Esto crea automáticamente 'createdAt' y 'updatedAt'
 });
