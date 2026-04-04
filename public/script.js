@@ -1,8 +1,8 @@
 const feedElement = document.getElementById('feed');
-const btnPublish = document.getElementById('btnPublish');
-const contentInput = document.getElementById('sparkContent');
+// const btnPublish = document.getElementById('btnPublish');
+// const contentInput = document.getElementById('sparkContent');
 
-// 1. Función para cargar las chispas desde la base de datos
+//Función para cargar las chispas desde la base de datos
 async function loadSparks() {
     const response = await fetch('/sparks'); // Hace un GET a tu servidor
     const sparks = await response.json();
@@ -20,7 +20,7 @@ async function loadSparks() {
     });
 }
 
-// 2. Función para publicar una nueva chispa (como hacías en Postman)
+/* 2. Función para publicar una nueva chispa 
 btnPublish.addEventListener('click', async () => {
     const content = contentInput.value;
     
@@ -34,7 +34,7 @@ btnPublish.addEventListener('click', async () => {
 
     contentInput.value = ''; // Limpiar el cuadro
     loadSparks(); // Recargar el feed para ver la nueva chispa
-});
+}); */
 
 // Cargar al iniciar la página
 loadSparks();

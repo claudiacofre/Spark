@@ -1,33 +1,45 @@
 {{!-- 1. Cabecera Fija --}}
-<header class="welcome">
-    <h1>Bienvenido a SPARK ✨</h1>
-</header>
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Spark - Enciende la conversación</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+<div class="container">
+    <h1>✨ Spark</h1>
 
-<hr>
+    {{!-- 1. La caja de publicación con su clase --}}
+    <section class="publish-box">
+        <form action="/sparks" method="POST">
+            <textarea 
+                name="content" 
+                id="sparkContent" 
+                placeholder="¿Listo para encender nuevas ideas?" 
+            ></textarea>
+            
+            <button type="submit">Chispa! ⚡</button>
+        </form>
+        {{!-- Usamos un div con clear para arreglar el float del botón --}}
+        <div style="clear: both;"></div>
+    </section>
 
-{{!-- 2. Formulario para CREAR (C de CRUD) --}}
-<section class="spark-editor">
-    <h2>Publicar un nuevo mensaje</h2>
-    <form action="/postear" method="POST" class="form-post">
-        <textarea name="content" placeholder="Escribe aquí..." required></textarea>
-        <button type="submit" class="btn-primary">Lanzar Spark</button>
-    </form>
-</section>
+    <hr />
 
-<hr>
-
-{{!-- 3. Lista para LEER (R de CRUD) --}}
-<section class="spark-feed">
-    <h3>Muro de publicaciones</h3>
-    
-    {{#if sparks.length}}
+    {{!-- 2. El contenedor del feed --}}
+    <div id="feed">
         {{#each sparks}}
-        <div class="card">
-            <p>{{this.content}}</p>
-            <small>Publicado el: {{this.createdAt}}</small>
-        </div>
+            <div class="spark-card">
+                <p>{{this.content}}</p>
+                <small>{{this.createdAt}}</small>
+            </div>
+        {{else}}
+            <p style="text-align: center; color: #8899a6;">Aún no hay chispas. ¡Sé el primero!</p>
         {{/each}}
-    {{else}}
-        <p>No hay publicaciones todavía.</p>
-    {{/if}}
-</section>
+    </div>
+</div>
+
+  <script src="script.js"></script>
+
+    </body>
+</html>

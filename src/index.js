@@ -21,15 +21,19 @@ const app = express();
 // --- CONFIGURACIÓN DEL PUERTO ---
 const PORT = process.env.PORT || 3333; 
 
+
 // --- CONFIGURACIÓN DEL MOTOR DE PLANTILLAS (HBS) --- Define Handlebars como el motor para generar vistas dinámicas
 app.set("view engine", "hbs");
 app.set("views", path.join(__dirname, "views"));
+app.use(express.static('public'));
 
 // --- MIDDLEWARES ---
 app.use(express.json()); // Permite procesar datos en formato JSON en las peticiones HTTP .
+app.use(express.urlencoded({ extended: true })); // Esto permite que Express lea los datos del <form>
 app.use(express.static(path.join(__dirname, "../public"))); // Sirve archivos estáticos (CSS, JS cliente) desde la carpeta pública.
 app.use(loggerMiddleware); // Registra cada actividad en un archivo plano. Aplica el logger globalmente.
 app.use(express.urlencoded({ extended: true }));  // Middleware para leer datos de formularios (POST)
+
  
 // --- RUTAS ---
 app.use("/", router); // Conecta el sistema de ruteo principal de la aplicación.
