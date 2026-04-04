@@ -13,10 +13,8 @@ const seedDatabase = async () => {
 
     // --- CARGA ---
     const initialSparks = [
-      // Datos de prueba (Chispas iniciales)
-      { content: "¡Bienvenidos a Spark! Mi primera chispa. 🚀" },
-      { content: "Node.js y Express hacen que el backend sea sencillo :D." },
-      { content: "Probando la persistencia con Sequelize y PostgreSQL." },
+      // Datos de prueba (Chispa inicial)
+      { content: "¡Bienvenidos a Spark! Mi primera chispa. " },
     ];
 
     await Spark.bulkCreate(initialSparks); // Insertar datos

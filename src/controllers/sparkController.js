@@ -16,22 +16,21 @@ export const getIndex = async (req, res) => {
             sparks: sparks // Paso los datos reales a la vista .hbs
         });
     } catch (error) {
-        console.error("Error al cargar la página de inicio:❌", error);
         res.status(500).send("Error al cargar la página de inicio.❌");
     }
 };
 
-// --- OBTENER CHISPAS  (Devuelve JSON para el JS del cliente) ---
+// --- OBTENER CHISPAS  ---
 export const getSparks = async (req, res) => {
     try {
         const sparks = await Spark.findAll({ order: [['createdAt', 'DESC']] });
         res.json(sparks); // <--- IMPORTANTE: Debe devolver JSON, no renderizar HTML
     } catch (error) {
-        res.status(500).json({ error: "Error al obtener las chispas" });
+        res.status(500).json({ error: "Error al obtener las chispas. ❌" });
     }
 };
 
-// --- Ruta de Status (Verificación técnica)  --- //  
+// --- Ruta de Status  Verificación técnica (Devuelve JSON para el JS del cliente) --- //  
 export const getStatus = (req, res) => {
     res.json({
         status: "ok",
@@ -41,17 +40,14 @@ export const getStatus = (req, res) => {
     });
 };
 
-// --- Crear una nueva chispa (Procesa el Formulario POST) ---
+// --- Crear una nueva chispa (Post) ---
 export const postSpark = async (req, res) => {
-    console.log("--- Intento de publicación ---");
-    console.log("Cuerpo de la petición (body):", req.body);
-
     try {
         const { content, parentId } = req.body;
 
         // Validar que el contenido no venga vacío
         if (!content || content.trim() === "") {
-            console.log("⚠️ Error: El contenido llegó vacío.");
+            console.log("Error: El contenido llegó vacío. ⚠️");
             return res.redirect('/'); 
         }
 
@@ -61,13 +57,10 @@ export const postSpark = async (req, res) => {
             parentId: parentId || null
         });
 
-        console.log("✅ Chispa creada con ID:", nuevaChispa.id);
-
         // Redirigir al inicio para ver los cambios
         res.redirect('/');
 
     } catch (error) {
-        console.error('❌ Error al crear la chispa:', error.message);
         res.status(500).send("Error interno del servidor al guardar la chispa. ❌");
     }
 };
