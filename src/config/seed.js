@@ -9,18 +9,18 @@ const seedDatabase = async () => {
     // --- LIMPIEZA ---
     // 'truncate' borra todos los registros y reinicia los contadores (IDs)
     await Spark.destroy({ where: {}, truncate: true, cascade: true });
-    console.log(" Base de datos limpiada. 🗑️");
+    console.log("Base de datos limpiada. 🗑️");
 
     // --- CARGA ---
     const initialSparks = [
       // Datos de prueba (Chispas iniciales)
       { content: "¡Bienvenidos a Spark! Mi primera chispa. 🚀" },
-      { content: "Node.js y Express hacen que el backend sea genial." },
+      { content: "Node.js y Express hacen que el backend sea sencillo :D." },
       { content: "Probando la persistencia con Sequelize y PostgreSQL." },
     ];
 
     await Spark.bulkCreate(initialSparks); // Insertar datos
-    console.log("✅ Datos semilla cargados con éxito.");
+    console.log("Datos semilla cargados con éxito. ✅");
 
     process.exit(0); // Cerrar el proceso exitosamente
   } catch (error) {
