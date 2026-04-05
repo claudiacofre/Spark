@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node ./src/index.js",
     "dev": "nodemon ./src/index.js",
-    "seed": "node src/config/seed.js"
+    "seed": "node ./src/config/seed.js"
   },
   "keywords": [],
   "author": "Claudia Cofré",
