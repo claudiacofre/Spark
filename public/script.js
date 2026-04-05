@@ -34,7 +34,7 @@ btnPublish.addEventListener('click', async (event) => {
     });
 
     contentInput.value = ''; 
-    loadSparks(); // Recarga el feed para ver la nueva chispa
+    loadSparks(); // Recargar el feed para ver la nueva chispa
 });
 
 // Cargar al iniciar la página
