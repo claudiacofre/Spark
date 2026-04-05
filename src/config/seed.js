@@ -6,15 +6,13 @@ const seedDatabase = async () => {
   try {
     await sequelize.authenticate(); // Conectar y sincronizar
 
-    // --- LIMPIEZA ---
-    // 'truncate' borra todos los registros y reinicia los contadores (IDs)
-    await Spark.destroy({ where: {}, truncate: true, cascade: true });
+    // --- Limpieza ---
+    await Spark.destroy({ where: {}, truncate: true, cascade: true });  // 'truncate' borra todos los registros y reinicia los contadores (IDs)
     console.log("Base de datos limpiada. 🗑️");
 
-    // --- CARGA ---
+    // --- Carga ---
     const initialSparks = [
-      // Datos de prueba (Chispa inicial)
-      { content: "¡Bienvenidos a Spark! Mi primera chispa. " },
+      { content: "¡Bienvenidos a Spark! Mi primera chispa. " },   // Dato de prueba (Chispa inicial)
     ];
 
     await Spark.bulkCreate(initialSparks); // Insertar datos

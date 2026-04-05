@@ -33,22 +33,21 @@ app.use(express.urlencoded({ extended: true })); // Esto permite que Express lea
 app.use(express.static(path.join(__dirname, "../public"))); // Sirve archivos estáticos (CSS, JS cliente) desde la carpeta pública.
 app.use(loggerMiddleware); // Registra cada actividad en un archivo plano. Aplica el logger globalmente.
 app.use(express.urlencoded({ extended: true }));  // Middleware para leer datos de formularios (POST)
-
  
 // --- RUTAS ---
 app.use("/", router); // Conecta el sistema de ruteo principal de la aplicación.
 
-// --- ARRANQUE DEL SERVIDOR Y BASE DE DATOS ---
+// --- ARRANQUE DEL SERVIDOR Y LA BASE DE DATOS ---
 const startServer = async () => {
   try {
     // Sincroniza los modelos con la base de datos (Preparación para la evaluación del Módulo 7).
     await sequelize.sync({ alter: true });
     console.log("Conexión a la base de datos de Spark establecida. ✅");
 
-    // --- TAREA LECCIÓN 5: Ejecutar simulación de logs ---
+    // --- Ejecutar simulación de logs (Lección 5) ---
     await simularAccesos();
 
-    // Inicia el servidor Node.js basado en el motor V8. (Solo UNA vez y después de la DB)
+    // Inicia el servidor Node.js basado en el motor V8. (Solo una vez y después de la BdD)
     app.listen(PORT, () => {
       console.log(
         `Servidor iniciado corriendo en el puerto: http://localhost:${PORT} 🎉`,
@@ -60,5 +59,5 @@ const startServer = async () => {
   }
 };
 
-// Encendemos Spark 
+// SE ENCIENDE SPARK
 startServer();

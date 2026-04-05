@@ -1,4 +1,4 @@
-/* --- CONFIGURACIÓN GENERAL --- */
+/* --- Configuración General --- */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
@@ -13,7 +13,7 @@ body {
 .container { width: 100%; max-width: 600px; padding: 20px; }
 h1 { color: #1d9bf0; text-align: center; margin-bottom: 30px; }
 
-/* --- CAJA DE PUBLICACIÓN --- */
+/* --- Caja de Publicación --- */
 .publish-box {
     background-color: #1e2732;
     padding: 20px;
@@ -35,7 +35,7 @@ button {
 
 button:hover { background-color: #1a8cd8; }
 
-/* --- FEED --- */
+/* --- Feed --- */
 .spark-card {
     background-color: #1e2732; padding: 15px; border-radius: 10px;
     margin-bottom: 15px; border: 1px solid #38444d;

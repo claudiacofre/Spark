@@ -1,7 +1,7 @@
 import Spark from "../models/spark.js";
 
 // --- RUTAS DE NAVEGACIÓN (HTML/Status) ---
-// Ruta de Inicio HTML optimizada con motor de plantillas
+// Ruta de Inicio HTML optimizada con motor de plantillas HBS
 export const getIndex = async (req, res) => {
   try {
     // Busco las chispas en la BdD
@@ -20,11 +20,11 @@ export const getIndex = async (req, res) => {
   }
 };
 
-// --- OBTENER CHISPAS  ---
+// --- Obtener Chispas  ---
 export const getSparks = async (req, res) => {
   try {
     const sparks = await Spark.findAll({ order: [["createdAt", "DESC"]] });
-    res.json(sparks); // <--- IMPORTANTE: Debe devolver JSON, no renderizar HTML
+    res.json(sparks); // <--- Debe devolver JSON, no renderizar HTML
   } catch (error) {
     res.status(500).json({ error: "Error al obtener las chispas. ❌" });
   }
@@ -45,7 +45,7 @@ export const postSpark = async (req, res) => {
   try {
     const { content, parentId } = req.body;
 
-    // Validar que el contenido no venga vacío
+    // Válida que el contenido no este vacío
     if (!content || content.trim() === "") {
       console.log("Error: El contenido llegó vacío. ⚠️");
       return res.redirect("/");
@@ -58,7 +58,6 @@ export const postSpark = async (req, res) => {
     });
 
     // Redirigir al inicio para ver los cambios
-
     res.redirect("/");
   } catch (error) {
     res.status(500).send("Error interno del servidor al guardar la chispa. ❌");

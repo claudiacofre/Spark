@@ -4,10 +4,10 @@ const contentInput = document.getElementById('sparkContent');
 
 //Función para cargar las chispas desde la base de datos
 async function loadSparks() {
-    const response = await fetch('/sparks'); // Hace un GET a tu servidor
+    const response = await fetch('/sparks'); // Hace un GET al servidor
     const sparks = await response.json();
     
-    feedElement.innerHTML = ''; // Limpiar el feed
+    feedElement.innerHTML = ''; // Limpia el feed
     
     sparks.forEach(spark => {
         const div = document.createElement('div');
@@ -33,8 +33,8 @@ btnPublish.addEventListener('click', async (event) => {
         body: JSON.stringify({ content })
     });
 
-    contentInput.value = ''; // Limpiar el cuadro
-    loadSparks(); // Recargar el feed para ver la nueva chispa
+    contentInput.value = ''; 
+    loadSparks(); // Recarga el feed para ver la nueva chispa
 });
 
 // Cargar al iniciar la página

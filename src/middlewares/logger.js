@@ -1,11 +1,9 @@
-
 import fs from 'fs/promises'; // Módulo para manipular archivos y directorios (Persistencia plana).
 import path from 'path';
 
-// Uso path.resolve para asegurar que encuentre la carpeta logs desde la raíz
-const logFilePath = path.resolve('src/logs/log.txt');
+const logFilePath = path.resolve('src/logs/log.txt'); // Uso path.resolve para asegurar que encuentre la carpeta logs desde la raíz
 
-// --- TAREA: FUNCIÓN PARA SIMULAR 3 ACCESOS (Lección 5) ---
+// --- Función para simular 3 accesos (Lección 5) ---
 export const simularAccesos = async () => {
     const rutasSimuladas = ['/', '/status', '/public/index.html'];
     try {
@@ -23,7 +21,7 @@ export const simularAccesos = async () => {
     }
 };
 
-// --- MIDDLEWARE PARA REGISTRO REAL ---
+// --- Middleware para el registro real ---
 const loggerMiddleware = async (req, res, next) => {
     const ahora = new Date();
     const fecha = ahora.toLocaleDateString('es-CL');

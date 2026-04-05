@@ -12,10 +12,10 @@ Spark.init({
   },
   // El contenido de la "Chispa"
   content: {
-    type: DataTypes.STRING(300), // Límite clásico de microblogging
+    type: DataTypes.STRING(300), // Límite un poco mayor que el clásico en microblogging.
     allowNull: false,
     validate: {
-      len: [1, 300] // Valida que no esté vacío ni se pase del límite. (No permite publicaciones vacías, ni extensas)
+      len: [1, 300] // Válida que no esté vacío ni se pase del límite. (No permite publicaciones vacías, ni más extensas)
     }
   }, 
   // Contador de interacciones

@@ -9,7 +9,7 @@ router.get('/status', getStatus); // Status técnico
 router.get('/sparks', getSparks); // Devuelve el JSON que busca script.js
 router.post('/sparks', postSpark); // Crea la chispa
 
-//Proximamente
+//Próximamente
 router.get('/feed', (req, res) => res.render('feed', { sparks: [] })); // Aquí pasaré los datos de Sequelize
 router.get('/post', (req, res) => res.render('post'));
 router.get('/profile', (req, res) => res.render('profile'));
