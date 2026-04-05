@@ -1,6 +1,6 @@
 const feedElement = document.getElementById('feed');
-// const btnPublish = document.getElementById('btnPublish');
-// const contentInput = document.getElementById('sparkContent');
+const btnPublish = document.getElementById('btnPublish');
+const contentInput = document.getElementById('sparkContent');
 
 //Función para cargar las chispas desde la base de datos
 async function loadSparks() {
@@ -20,8 +20,9 @@ async function loadSparks() {
     });
 }
 
-/* 2. Función para publicar una nueva chispa 
-btnPublish.addEventListener('click', async () => {
+// 2. Función para publicar una nueva chispa 
+btnPublish.addEventListener('click', async (event) => {
+    event.preventDefault();
     const content = contentInput.value;
     
     if (!content) return alert("¡Escribe algo primero!");
@@ -34,7 +35,7 @@ btnPublish.addEventListener('click', async () => {
 
     contentInput.value = ''; // Limpiar el cuadro
     loadSparks(); // Recargar el feed para ver la nueva chispa
-}); */
+});
 
 // Cargar al iniciar la página
 loadSparks();
