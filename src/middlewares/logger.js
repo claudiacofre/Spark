@@ -29,8 +29,8 @@ const loggerMiddleware = async (req, res, next) => {
     const fecha = ahora.toLocaleDateString('es-CL');
     const hora = ahora.toLocaleTimeString('es-CL');
     const ruta = req.url;
-
-    const logEntrada = `Fecha: ${fecha} | Hora: ${hora} | Ruta: ${ruta}\n`;
+    const method = req.method;
+    const logEntrada = `Fecha: ${fecha} | Hora: ${hora} | Ruta: ${method}: ${ruta}\n`;
 
     try {
         await fs.appendFile(logFilePath, logEntrada);
