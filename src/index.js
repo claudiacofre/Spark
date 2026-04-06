@@ -1,5 +1,6 @@
 import express from "express";
 import "dotenv/config"; // Manejo de variables de entorno para seguridad y portabilidad.
+import exphbs from "express-handlebars";
 import hbs from "hbs"; // Motor de plantillas para renderizar contenido dinámico en HTML.
 import path from "path"; // Módulo nativo para manejar rutas de carpetas.
 import { fileURLToPath } from "url"; // Convierte URLs de módulos en rutas de sistema de archivos.
@@ -19,21 +20,27 @@ import loggerMiddleware, { simularAccesos } from "./middlewares/logger.js"; // F
 const app = express();
 
 // --- CONFIGURACIÓN DEL PUERTO ---
-const PORT = process.env.PORT || 3333; 
+const PORT = process.env.PORT || 3333;
 
-
-// --- CONFIGURACIÓN DEL MOTOR DE PLANTILLAS (HBS) --- Define Handlebars como el motor para generar vistas dinámicas
+// --- CONFIGURACIÓN DEL MOTOR DE PLANTILLAS (HBS) --- 
 app.set("view engine", "hbs");
-app.set("views", path.join(__dirname, "views"));
-app.use(express.static('public'));
+app.set("views", path.join(__dirname, "/views"));
+
+app.engine(
+  "hbs",
+  exphbs.engine({
+    defaultLayout: "main",
+    layoutsDir: path.join(__dirname, "views/layouts"),
+    extname: ".hbs",
+  }),
+);
 
 // --- MIDDLEWARES ---
 app.use(express.json()); // Permite procesar datos en formato JSON en las peticiones HTTP .
-app.use(express.urlencoded({ extended: true })); // Esto permite que Express lea los datos del <form>
 app.use(express.static(path.join(__dirname, "../public"))); // Sirve archivos estáticos (CSS, JS cliente) desde la carpeta pública.
 app.use(loggerMiddleware); // Registra cada actividad en un archivo plano. Aplica el logger globalmente.
-app.use(express.urlencoded({ extended: true }));  // Middleware para leer datos de formularios (POST)
- 
+app.use(express.urlencoded({ extended: true })); // Middleware para leer datos de formularios (POST)
+
 // --- RUTAS ---
 app.use("/", router); // Conecta el sistema de ruteo principal de la aplicación.
 
