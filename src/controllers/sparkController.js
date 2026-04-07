@@ -4,33 +4,31 @@ import Spark from "../models/spark.js";
 // Ruta de Inicio HTML optimizada con motor de plantillas HBS
 export const getIndex = async (req, res) => {
   try {
-    // Busco las chispas en la BdD
-    const sparks = await Spark.findAll({
+    const sparks = await Spark.findAll({ // Consulta la base de datos para obtener las chispas más recientes
       order: [["createdAt", "DESC"]],
-      limit: 10, // Solo las últimas 10
+      limit: 10, // Solo las últimas 10 publicaciones.
     });
-
     res.render("index", {
       nombreProyecto: "Spark",
       status: "Online",
-      sparks: sparks, // Paso los datos reales a la vista .hbs
+      sparks: sparks,  
     });
   } catch (error) {
     res.status(500).send("Error al cargar la página de inicio.❌");
   }
 };
 
-// --- Obtener Chispas  ---
+// --- Obtener Chispas (Punto de conexión de la API / JSON) ---
 export const getSparks = async (req, res) => {
   try {
-    const sparks = await Spark.findAll({ order: [["createdAt", "DESC"]] });
-    res.json(sparks); // <--- Debe devolver JSON, no renderizar HTML
+    const sparks = await Spark.findAll({ order: [["createdAt", "DESC"]] }); // Busca todas las chispas (sin el límite de 10)
+    res.json(sparks); // Envia la respuesta en formato JSON
   } catch (error) {
     res.status(500).json({ error: "Error al obtener las chispas. ❌" });
   }
 };
 
-// --- Ruta de Status  Verificación técnica (Devuelve JSON para el JS del cliente) --- //
+// --- Ruta de Status (Verificación técnica) ---  (Devuelve JSON para el JS del cliente) 
 export const getStatus = (req, res) => {
   res.json({
     status: "ok",
@@ -40,7 +38,7 @@ export const getStatus = (req, res) => {
   });
 };
 
-// --- Crear una nueva chispa (Post) ---
+// --- Crear una nueva chispa ((Procesamiento de Formulario) ---
 export const postSpark = async (req, res) => {
   try {
     const { content, parentId } = req.body;
@@ -51,7 +49,7 @@ export const postSpark = async (req, res) => {
       return res.redirect("/");
     }
 
-    // Crear la chispa en la base de datos
+    // Crear la chispa en la base de datos usando Sequelize
     const nuevaChispa = await Spark.create({
       content,
       parentId: parentId || null,
