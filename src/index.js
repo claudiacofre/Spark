@@ -1,7 +1,6 @@
 import express from "express";
 import "dotenv/config"; // Manejo de variables de entorno para seguridad y portabilidad.
-import exphbs from "express-handlebars";
-import hbs from "hbs"; // Motor de plantillas para renderizar contenido dinámico en HTML.
+import exphbs from "express-handlebars"; // Motor de plantillas para renderizar contenido dinámico en HTML.
 import path from "path"; // Módulo nativo para manejar rutas de carpetas.
 import { fileURLToPath } from "url"; // Convierte URLs de módulos en rutas de sistema de archivos.
 
@@ -9,31 +8,33 @@ import { fileURLToPath } from "url"; // Convierte URLs de módulos en rutas de s
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-hbs.registerPartials(path.join(__dirname, "views/partials"));
-
 // --- IMPORTACIONES DE PROYECTO ---
 import sequelize from "./config/database.js"; // Conector ORM para bases de datos.
 import "./models/spark.js"; // Importar para que Sequelize reconozca el modelo
-import router from "./routes/router.js"; // Implementación de Routing para definir rutas de la app.
+import mainRouter from "./routes/main.router.js"; // Implementación de Routing para definir rutas de la app.
 import loggerMiddleware, { simularAccesos } from "./middlewares/logger.js"; // Función Middleware que se ejecuta antes de la respuesta.
+import { formatDate } from "./config/hbs-helpers.js";
 
 const app = express();
 
 // --- CONFIGURACIÓN DEL PUERTO ---
 const PORT = process.env.PORT || 3333;
 
-// --- CONFIGURACIÓN DEL MOTOR DE PLANTILLAS (HBS) --- 
-app.set("view engine", "hbs");
-app.set("views", path.join(__dirname, "/views"));
-
+// --- CONFIGURACIÓN DEL MOTOR DE PLANTILLAS (HBS) ---
 app.engine(
   "hbs",
   exphbs.engine({
+    extname: ".hbs",
     defaultLayout: "main",
     layoutsDir: path.join(__dirname, "views/layouts"),
-    extname: ".hbs",
+    partialsDir: path.join(__dirname, "views/partials"),
+    helpers: {
+      formatDate
+    },
   }),
 );
+app.set("view engine", "hbs");
+app.set("views", path.join(__dirname, "views"));
 
 // --- MIDDLEWARES ---
 app.use(express.json()); // Permite procesar datos en formato JSON en las peticiones HTTP .
@@ -41,8 +42,9 @@ app.use(express.static(path.join(__dirname, "../public"))); // Sirve archivos es
 app.use(loggerMiddleware); // Registra cada actividad en un archivo plano. Aplica el logger globalmente.
 app.use(express.urlencoded({ extended: true })); // Middleware para leer datos de formularios (POST)
 
-// --- RUTAS ---
-app.use("/", router); // Conecta el sistema de ruteo principal de la aplicación.
+// --- RUTAS ---  Conecta el sistema de ruteo principal de la aplicación.
+app.use("/", mainRouter);
+
 
 // --- ARRANQUE DEL SERVIDOR Y LA BASE DE DATOS ---
 const startServer = async () => {
