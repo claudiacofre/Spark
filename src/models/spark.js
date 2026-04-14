@@ -10,6 +10,11 @@ Spark.init({
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true
   },
+  username: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    defaultValue: 'Claudia' // Esto ayuda para que las chispas antiguas no queden vacías
+  },
   // El contenido de la "Chispa"
   content: {
     type: DataTypes.STRING(300), // Límite un poco mayor que el clásico en microblogging.
