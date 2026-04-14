@@ -51,7 +51,6 @@ const startServer = async () => {
   try {
     // Sincroniza los modelos con la base de datos (Preparación para la evaluación del Módulo 7).
     await sequelize.sync({ alter: true });
-    console.log("Conexión a la base de datos de Spark establecida. ✅");
 
     // --- Ejecutar simulación de logs (Lección 5) ---
     await simularAccesos();
