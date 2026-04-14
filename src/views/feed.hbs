@@ -1,17 +1,40 @@
-{{!-- <section class="post-box">
-    <form action="/sparks" method="POST">
-        <textarea name="content" placeholder="¿Qué estás pensando?" maxlength="280"></textarea>
-        <button type="submit">Spark!✨ </button>
-    </form>
-</section>
+<div class="main-container">
+    <section class="publish-box">
+        <form action="/publish" method="POST">
+            <textarea 
+                name="content" 
+                placeholder="¿Listo para encender nuevas ideas?" 
+                required 
+                maxlength="300"
+            ></textarea>
+            <button type="submit" id="btnPublish">Chispas!✨</button>
+        </form>
+    </section>
 
-<section class="timeline">
-    {{#each sparks}}
-        <div class="spark-card">
-            {{!-- <strong>@{{this.User.username}}</strong>
-            <p>{{this.content}}</p>
-            <span>{{this.createdAt}}</span>
-            <a href="/post/{{this.id}}">Ver detalles</a> 
-        </div>
-    {{/each}}
-</section> --}}
+    <hr class="separator" />
+
+    <div id="feed">
+        {{#each sparks}}
+            <article class="spark-card">
+                <div class="card-header">
+                    <span class="user-badge">✨</span>
+                    <strong class="user-handle">@{{this.username}}</strong>
+                    <span class="dot">·</span>
+                    <time class="timestamp">{{formatDate this.created_at}}</time>
+                </div>
+                
+                <div class="card-body">
+                    <p class="content">{{this.content}}</p>
+                </div>
+
+                <div class="card-footer">
+                    <a href="/post/{{this.id}}" class="btn-details">
+                        <i class="icon">💬</i> Ver detalles
+                    </a>
+                </div>
+            </article>
+        {{else}}
+            <p class="empty-msg">Aún no hay chispas... ¡Sé el primero en encender una! ✨</p>
+        {{/each}}
+    </div>
+</div>

@@ -1,11 +1,23 @@
-{{!-- <header class="profile-header">
-    {{!-- <img src="" alt="Avatar">
-    <h1>{{user.name}}</h1>
-    <p>@{{user.username}}</p> 
-</header>
+<div class="container">
+    <div class="profile-header">
+        <div class="profile-avatar">✨</div>
+        <div class="profile-info">
+            <h2>@{{user.username}}</h2>
+            <p class="bio">Full Stack Developer Trainee | Encendiendo ideas en Spark.</p>
+        </div>
+    </div>
 
-<h3>Mis publicaciones</h3>
-{{!-- <div class="my-sparks">
-    {{#each userSparks}}
-        {{> sparkCard}} {{/each}} 
-</div> --}}
+    <hr>
+    
+    <h3>Mis Chispas</h3>
+    <div id="feed">
+        {{#each userSparks}}
+            <div class="spark-card">
+                <small class="timestamp">{{formatDate this.created_at}}</small>
+                <p class="content">{{this.content}}</p>
+            </div>
+        {{else}}
+            <p class="empty-msg">Aún no has encendido ninguna chispa. 🔥</p>
+        {{/each}}
+    </div>
+</div>

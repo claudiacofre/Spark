@@ -1,18 +1,10 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Spark - Enciende la conversación</title>
-    <link rel="stylesheet" href="/style.css">
-</head>
-<body>
 
+<main class="main-content"></main>
     <div class="container">
         <h1>✨ Spark ✨ </h1>
 
         <section class="publish-box">
-            <form>
+            <form action="/sparks" method="POST"> {{!-- Asegúrate de tener el action y method --}}
                 <textarea 
                     name="content" 
                     id="sparkContent" 
@@ -21,7 +13,7 @@
                     maxlength="300"
                 ></textarea>
                 
-                <button id="btnPublish">Chispas!✨</button>
+                <button type="submit" id="btnPublish">Chispas!✨</button>
             </form>
             <div style="clear: both;"></div>
         </section>
@@ -31,13 +23,12 @@
         <div id="feed">
             {{#each sparks}}
                 <div class="spark-card">
+                    <p>{{this.content}}</p> 
+                    <small>Enviado a las: {{formatDate this.created_at}}</small>
                 </div>
             {{else}}
                 <p class="empty-msg">Aún no hay chispas... ¡Sé el primero en encender una! ✨</p>
             {{/each}}
         </div>
     </div>
-
-    <script src="/script.js"></script> <!-- En un servidor Express la ruta /script.js es relativa a la raíz del servidor (Esta en public)-->
-</body>
-</html>
+</main>
