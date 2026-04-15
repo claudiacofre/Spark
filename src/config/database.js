@@ -13,13 +13,14 @@ const sequelize = new Sequelize(
     define: {
       timestamps: true,     
       underscored: true     // Usa snake_case (user_id) en lugar de camelCase
+
     }
   }
 );
 // Verificación de conexión (Log de éxito requerido)
 try {
     await sequelize.authenticate();
-    console.log('Conexión exitosa a la base de datos PostgreSQL. ✅');
+    console.log('Conexión exitosa a la base de datos PostgreSQL. ✨');
 } catch (error) {
     console.error('No se pudo conectar a la base de datos: ❌', error);
 }
