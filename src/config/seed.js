@@ -26,7 +26,7 @@ const seedDatabase = async () => {
     console.log("Se han registrado 3 Usuarios semilla con éxito. ✅");
 
     // ---  Carga de Chispas ---
-    const initialSparks = [ // Dato de prueba (Chispas iniciales)
+    const initialSparks = [ // Chispas de prueba (Chispas iniciales)
       { content: "Probando que tal esta spark...", username: "Eduardo" }
       { content: "¡Bienvenidos a Spark! Mi primera chispa.", username: "Claudia" },
       
