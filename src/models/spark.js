@@ -13,7 +13,7 @@ Spark.init({
   username: {
     type: DataTypes.STRING,
     allowNull: false,
-    defaultValue: 'Claudia' // Esto ayuda para que las chispas antiguas no queden vacías
+   // defaultValue: 'Claudia' --> Esto ayuda para que las chispas antiguas no queden vacías
   },
   // El contenido de la "Chispa"
   content: {
