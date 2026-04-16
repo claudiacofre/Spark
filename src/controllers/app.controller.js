@@ -22,8 +22,8 @@ export const getIndex = async (req, res) => {
       sparks: sparks,  
     });
   } catch (error) {
-    console.error("Error en getIndex:", error);
-    res.status(500).send("Error");
+    console.error("Error en getIndex: ❌", error);
+    res.status(500).send("Error. ❌");
   }
 };
 

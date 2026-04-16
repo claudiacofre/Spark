@@ -41,7 +41,7 @@ export const getPostDetail = async (req, res) => {
         const { id } = req.params;
         const sparkData = await Spark.findByPk(id); // Busca por Primary Key (ID)
 
-        if (!sparkData) return res.status(404).send("Chispa no encontrada 🔍");
+        if (!sparkData) return res.status(404).send("Chispa no encontrada. 🔍");
 
         const data = sparkData.get({ plain: true });
         const spark = {
@@ -49,11 +49,9 @@ export const getPostDetail = async (req, res) => {
             created_at: data.created_at || data.createdAt
         };
 
-        res.render("post", { 
-            spark: spark.get({ plain: true }) 
-        });
+       res.render("post", { spark });
     } catch (error) {
-        res.status(500).send("Error al abrir la chispa");
+        res.status(500).send("Error al abrir la chispa. ❌");
     }
 };
 
@@ -65,7 +63,7 @@ export const postSpark = async (req, res) => {
         // 1. Validación de contenido (Evita guardar strings vacíos o solo espacios)
         if (!content || content.trim() === "") {
             console.warn("Intento de publicación con contenido vacío. ⚠️");
-            return res.status(400).json({ error: 'Contenido vacío' });
+            return res.status(400).json({ error: 'Contenido vacío.' });
         }
 
         // 2. Creación en la base de datos
@@ -73,14 +71,14 @@ export const postSpark = async (req, res) => {
         await Spark.create({
             content: content.trim(),
             parentId: parentId || null,
-            username: 'claudia_dev' // Hardcoded temporalmente hasta tener el auth listo
+            username: 'Claudia' // Hardcoded temporalmente hasta tener el auth listo
         });
 
         // 3. Redirección exitosa al feed
         res.redirect('/');
 
     } catch (error) {
-        console.error("--- ERROR AL GUARDAR CHISPA ---");
+        console.error("--- ❌ ERROR AL GUARDAR CHISPA ❌ ---");
         res.status(500).send("Error interno del servidor al guardar la chispa. ❌");
     }
 };

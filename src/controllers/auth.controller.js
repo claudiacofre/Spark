@@ -21,14 +21,14 @@ export const getProfile = async (req, res) => {
             userSparks: userSparks // <--- Aquí es donde se arregla la fecha
         });
   } catch (error) {
-    console.error("Error al cargar perfil:", error);
-    res.status(500).send("Error al cargar el perfil ❌");
+    console.error("Error al cargar perfil: ❌", error);
+    res.status(500).send("Error al cargar el perfil. ❌");
   }
 };
 
 export const getSettings = (req, res) => {
   res.render("settings", {
-    title: "Configuración de cuenta",
+    title: "Configuración del Perfil.",
     user: {
       username: "Claudia",
       email: "claudia@ejemplo.com",
