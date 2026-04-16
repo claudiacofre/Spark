@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 
 // --- IMPORTACIONES DE PROYECTO ---
 import sequelize from "./config/database.js"; // Conector ORM para bases de datos.
-import "./models/spark.js"; // Importar para que Sequelize reconozca el modelo
+import { User, Spark } from "./models/index.js";
 import mainRouter from "./routes/main.router.js"; // Implementación de Routing para definir rutas de la app.
 import loggerMiddleware, { simularAccesos } from "./middlewares/logger.js"; // Función Middleware que se ejecuta antes de la respuesta.
 import { formatDate } from "./config/hbs-helpers.js";
@@ -50,7 +50,7 @@ app.use("/", mainRouter);
 const startServer = async () => {
   try {
     // Sincroniza los modelos con la base de datos (Preparación para la evaluación del Módulo 7).
-    await sequelize.sync({ alter: true });
+    await sequelize.sync({ force: false});
 
     // --- Ejecutar simulación de logs (Lección 5) ---
     await simularAccesos();
