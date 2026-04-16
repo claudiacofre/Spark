@@ -2,11 +2,13 @@ import { Router } from "express";
 import appRouter from "./app.router.js";
 import authRouter from "./auth.router.js";
 import sparkRouter from "./spark.router.js";
+import userRouter from './user.router.js';
 
 const router = Router();
 
-router.use("/", appRouter); // Inicio
-router.use("/", authRouter); // Perfil y Configuracion de la cuenta
-router.use("/", sparkRouter); // Publicaciones y Detalle de Post
+router.use("/", appRouter); 
+router.use("/", authRouter); 
+router.use("/", sparkRouter); 
+router.use("/users", userRouter); 
 
 export default router;
