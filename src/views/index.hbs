@@ -22,6 +22,7 @@
         <div id="feed">
             {{#each sparks}}
                 <div class="spark-card">
+                      <strong class="user-handle">@{{this.username}}</strong>
                     <p>{{this.content}}</p> 
                     <small>Enviado a las: {{formatDate this.created_at}}</small>
                 </div>
