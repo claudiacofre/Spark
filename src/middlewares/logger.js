@@ -4,9 +4,25 @@ import path from 'path';
 const logFilePath = path.resolve('src/logs/log.txt'); // Uso path.resolve para asegurar que encuentre la carpeta logs desde la raíz
 
 // --- Función para simular 3 accesos (Lección 5) ---
+// Asegúrate de tener estas importaciones al inicio del archivo logger.js
+import { User, Spark } from '../models/index.js';
+
 export const simularAccesos = async () => {
     const rutasSimuladas = ['/', '/status', '/public/index.html'];
+    
     try {
+        // 1. Lógica para la Base de Datos (Lección 6 - Relaciones)
+        const [admin] = await User.findOrCreate({
+            where: { username: 'AdminSpark' },
+            defaults: { email: 'admin@spark.com', password: '123' }
+        });
+
+        await Spark.create({ 
+            username: admin.username, 
+            content: "El sistema ha iniciado correctamente." 
+        });
+
+        // 2. Lógica para Archivos Planos (Lección 5 - Logs en .txt)
         for (const ruta of rutasSimuladas) {
             const ahora = new Date();
             const fecha = ahora.toLocaleDateString('es-CL');
@@ -15,9 +31,11 @@ export const simularAccesos = async () => {
             
             await fs.appendFile(logFilePath, logEntrada);
         }
-        console.log("Se han registrado 3 accesos simulados en logs ✅");
+
+        console.log("Se han registrado 3 accesos simulados en logs. ✅");
+
     } catch (error) {
-        console.error("Error en la simulación de logs ❌:", error);
+        console.error("Error en la simulación de logs. ❌:", error.message);
     }
 };
 
@@ -33,7 +51,7 @@ const loggerMiddleware = async (req, res, next) => {
     try {
         await fs.appendFile(logFilePath, logEntrada);
     } catch (error) {
-        console.error("Error registrando en logs ❌:", error);
+        console.error("Error registrando en logs. ❌:", error);
     }
 
     next(); 
