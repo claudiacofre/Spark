@@ -27,7 +27,7 @@ const seedDatabase = async () => {
 
     // ---  Carga de Chispas ---
     const initialSparks = [ // Chispas de prueba (Chispas iniciales)
-      { content: "Probando que tal esta spark...", username: "Eduardo" }
+      { content: "Probando que tal esta spark...", username: "Eduardo" },
       { content: "¡Bienvenidos a Spark! Mi primera chispa.", username: "Claudia" },
       
     ];
