@@ -122,7 +122,7 @@ export const getUserWithSparks = async (req, res) => {
         const user = await User.findOne({
             where: { username },
             attributes: { exclude: ['password'] },
-            // REQUERIMIENTO MÍNIMO: Traer la relación usando include
+            // Traer la relación usando include
             include: [{
                 model: Spark,
                 attributes: ['content', 'createdAt']
