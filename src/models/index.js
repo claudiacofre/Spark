@@ -15,5 +15,5 @@ Spark.belongsTo(User, {
     targetKey: 'username'
 });
 
-// Exportas ambos para usarlos en tus controladores
+// Exporto ambos para usarlos en mis controladores
 export { User, Spark };
