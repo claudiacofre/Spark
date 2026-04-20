@@ -1,21 +1,22 @@
-
-<header class="main-header">
+<header class="main-header shadow-sm">
     <div class="header-container">
         <div class="logo">
-            <a href="/">✨ Spark</a>
+            <a href="/" class="text-decoration-none">✨ Spark</a>
         </div>
 
         <nav class="navbar">
-            <ul>
-                <li><a href="/feed" class="nav-link" >Inicio</a></li>
-                <li><a href="/profile"  class="nav-link">Mi Perfil</a></li>
+            <ul class="nav-list">
+                <li><a href="/feed" class="nav-link">Inicio</a></li>
+                <li><a href="/profile" class="nav-link">Mi Perfil</a></li>
                 <li><a href="/settings" class="nav-link">Ajustes</a></li>
-                <li><a href="/logout" class="btn-logout">Salir</a></li>
-                  {{!-- <form action="/logout" method="POST" style="display: inline;">
-                    <button type="submit" class="btn-logout">Salir</button> --}}
-                </form>
+                <li class="nav-item-logout">
+                    <form action="/api/auth/logout" method="POST" class="m-0">
+                        <button type="submit" class="logout-button">
+                            <i class="bi bi-box-arrow-right"></i> Salir
+                        </button>
+                    </form>
+                </li>
             </ul>
         </nav>
     </div>
 </header>
-

@@ -1,34 +1,39 @@
-<main class="main-content"></main>
-    <div class="container">
-        <h1>✨ Spark ✨ </h1>
-
-        <section class="publish-box">
-            <form action="/publish" method="POST">  
-                <textarea 
-                    name="content" 
-                    id="sparkContent" 
-                    placeholder="¿Listo para encender nuevas ideas?" 
-                    required 
-                    maxlength="300"
-                ></textarea>
-                
-                <button type="submit" id="btnPublish">Chispas!✨</button>
-            </form>
-            <div style="clear: both;"></div>
-        </section>
-
-        <hr />
-
-        <div id="feed">
-            {{#each sparks}}
-                <div class="spark-card">
-                      <strong class="user-handle">@{{this.username}}</strong>
-                    <p>{{this.content}}</p> 
-                    <small>Enviado a las: {{formatDate this.created_at}}</small>
-                </div>
-            {{else}}
-                <p class="empty-msg">Aún no hay chispas... ¡Sé el primero en encender una! ✨</p>
-            {{/each}}
+<div class="container-fluid bg-dark text-white p-0">
+    <div class="hero-section rounded-3">
+        <div class="container-fluid py-5">
+            <div class="display-1 text-primary mb-4 animate__animated animate__pulse animate__infinite">
+                <i class="bi bi-stars text-primary display-1 animate__animated animate__pulse animate__infinite"></i>
+            </div>
+            
+            <h1 class="display-6 fw-bold lh-1 mb-3">Conecta con el mundo, una <span class="text-primary text-gradient">chispa</span> a la vez.</h1>
+            
+            <p class="col-md-8 mx-auto fs-6 text-muted">Bienvenida a Spark, la red social diseñada para que tus ideas fluyan sin distracciones. Comparte lo que piensas, sigue a otros y haz que tu chispa se encienda.</p>
+            
+            <div class="d-grid gap-3 d-sm-flex justify-content-sm-center mt-5">
+                <a href="/login" class="btn btn-primary btn-lg fs-5 px-5 gap-3 shadow rounded-pill">Iniciar Sesión</a>
+              <a href="/register" class="btn btn-outline-light btn-lg px-5 rounded-pill">
+        Crear Cuenta <i class="bi bi-arrow-right"></i>
+    </a>
+            </div>
         </div>
     </div>
-</main>
+
+<section class="features-grid container">
+    <div class="feature-card">
+        <i class="bi bi-rocket-takeoff text-primary"></i>
+        <h5>Velocidad</h5>
+        <p>Publica tus pensamientos o ideas sin miedo al instante y que nada te detenga.</p>
+    </div>
+    
+    <div class="feature-card">
+        <i class="bi bi-shield-check text-primary"></i>
+        <h5>Seguridad</h5>
+        <p>Tus datos están protegidos. Tienes el control absoluto de tu cuenta.</p>
+    </div>
+    
+    <div class="feature-card">
+        <i class="bi bi-heart text-primary"></i>
+        <h5>Comunidad</h5>
+        <p>Encuentra a tus amigos, descubre nuevas perspectivas y haz conexiones reales.</p>
+    </div>
+</section>
