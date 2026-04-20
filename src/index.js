@@ -46,6 +46,7 @@ app.use(express.urlencoded({ extended: true })); // Middleware para leer datos d
 app.use("/", mainRouter);
 
 
+
 // --- ARRANQUE DEL SERVIDOR Y LA BASE DE DATOS ---
 const startServer = async () => {
   try {
