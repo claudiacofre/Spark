@@ -1,0 +1,58 @@
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="login-card shadow-lg">
+        <div class="text-center p-4">
+            <div class="display-4 text-primary mb-2">
+                <i class="bi bi-lightning-charge-fill"></i>
+            </div>
+            <h1 class="h3 fw-bold text-white">Bienvenido a Spark</h1>
+            <p class="text-muted small">Ingresa tus credenciales para continuar</p>
+        </div>
+
+        <div class="card-body p-4 pt-0">
+            <form action="/api/auth/login" method="POST">
+                <div class="mb-3">
+                    <label for="email" class="form-label small text-white-50">Correo Electrónico</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-dark border-secondary text-muted">
+                            <i class="bi bi-envelope"></i>
+                        </span>
+                        <input type="email" class="form-control bg-dark text-white border-secondary" 
+                               id="email" name="email" placeholder="ejemplo@correo.com" required>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <div class="d-flex justify-content-between">
+                        <label for="password" class="form-label small text-white-50">Contraseña</label>
+                        <a href="#" class="text-primary small text-decoration-none">¿La olvidaste?</a>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-text bg-dark border-secondary text-muted">
+                            <i class="bi bi-lock"></i>
+                        </span>
+                        <input type="password" class="form-control bg-dark text-white border-secondary" 
+                               id="password" name="password" placeholder="••••••••" required>
+                    </div>
+                </div>
+
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary py-2 fw-bold rounded-pill shadow-sm">
+                        Iniciar Sesión
+                    </button>
+                </div>
+            </form>
+
+            <div class="d-flex align-items-center my-4">
+                <hr class="flex-grow-1 text-secondary">
+                <span class="mx-2 text-muted small">O</span>
+                <hr class="flex-grow-1 text-secondary">
+            </div>
+
+            <div class="text-center">
+                <p class="text-muted small mb-0">¿No tienes cuenta? 
+                    <a href="/register" class="text-primary fw-bold text-decoration-none">Regístrate gratis</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
