@@ -1,9 +1,10 @@
 import { Router } from 'express';
 // Controladores
 import { getIndex, getStatus } from '../controllers/app.controller.js';
-import { renderLogin, renderRegister, getProfile, getSettings } from '../controllers/auth.controller.js';
+import { renderLogin, renderRegister, registerUser, loginAPI, logoutAPI } from '../controllers/auth.controller.js';
+import { getProfile, getSettings } from "../controllers/profile.controller.js";
 import { getSparks, postSpark, getFeed, getPostDetail } from '../controllers/spark.controller.js';
-import { registerUser, loginAPI, logoutAPI } from '../controllers/auth.controller.js';
+
 
 // Routers secundarios (Si decides usarlos)
 import userRouter from './user.router.js';
