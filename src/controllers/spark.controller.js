@@ -75,7 +75,7 @@ export const postSpark = async (req, res) => {
         });
 
         // 3. Redirección exitosa al feed
-        res.redirect('/');
+        res.redirect('/feed');
 
     } catch (error) {
         console.error("--- ❌ ERROR AL GUARDAR CHISPA ❌ ---");
