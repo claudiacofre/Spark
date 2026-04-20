@@ -9,7 +9,7 @@
     --bg-color: #15202b;
     --card-bg: #1e2732;
     --border-color: #38444d;
-    --spark-blue: #1d9bf0;
+    --spark-blue: #0d6efd;
     --text-main: #ffffff;
     --text-dim: #8899a6;
 }
@@ -26,7 +26,6 @@ body {
     width: 90%;
     max-width: 600px;
     margin: 0 auto;
-    display: block;
 }
 
 .container, .main-content, .app-container {
@@ -99,7 +98,7 @@ body {
     height: 100px;
     background: transparent;
     border: none;
-    color: white;
+    color: var(--text-main);
     font-size: 1.2rem;
     resize: none;
     outline: none;
@@ -115,14 +114,12 @@ body {
     border-radius: 30px;
     font-weight: bold;
     cursor: pointer;
-    float: right; /* Alinea a la derecha */
+    align-self: flex-end;
 }
 
-/* Limpia el float del botón */
-.publish-box form::after {
-    content: "";
-    display: table;
-    clear: both;
+.publish-box form {
+    display: flex;
+    flex-direction: column;
 }
 
 /* --- Tarjetas (Feed) --- */
@@ -150,7 +147,7 @@ body {
 .card-body .content {
     font-size: 1.05rem;
     margin-bottom: 10px;
-    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 .card-footer {
@@ -265,17 +262,17 @@ body {
     font-size: 1rem;
     font-weight: 600;
     margin-bottom: 5px;
-    color: #fff ;
+    color: var(--text-main);
 }
 
 .feature-card p {
     font-size: 0.8rem;
-    color: #a0aec0;
+    color: var(--text-dim);
     margin: 0;
 }
 
 .feature-card:hover {
-    border-color: #0d6efd;
+    border-color: var(--spark-blue);
     background: rgba(13, 110, 253, 0.1); /* Sutil tinte azul al pasar el mouse */
 }
 
@@ -300,13 +297,13 @@ body {
 
 .form-control:focus {
     background-color: #1e1e1e ;
-    border-color: #0d6efd ;
+    border-color: var(--spark-blue);
     box-shadow: none; /* Quitamos el brillo azul de Bootstrap que a veces se ve mal */
 }
 
 /* Botón con el azul de tu marca */
 .btn-primary {
-    background-color: #0d6efd;
+     background-color: var(--spark-blue);
     border: none;
     font-size: 0.9rem;
     transition: background 0.3s;
@@ -374,11 +371,88 @@ body {
 /* Aseguramos que los nav-link normales se vean bien al lado */
 .nav-link {
     text-decoration: none;
-    color: #e0e0e0;
+    color: var(--text-main);
+    opacity: 0.85;
     font-size: 0.95rem;
     transition: color 0.2s;
 }
 
 .nav-link:hover {
-    color: #0d6efd; /* El azul de Spark */
+    color: var(--spark-blue);; /* El azul de Spark */
+}
+
+/* --- Detalle de la Publicación (Spark Detail) --- */
+
+.btn-back {
+    color: var(--text-dim);
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.btn-back:hover {
+    color: var(--spark-blue);
+}
+
+.spark-detail-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 25px;
+    margin-top: 10px;
+}
+
+.card-header-detail {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.avatar-sm {
+    width: 40px;
+    height: 40px;
+    background: var(--border-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--spark-blue);
+    font-weight: bold;
+}
+
+.spark-body-detail p {
+    font-size: 1.5rem; /* Letra más grande por ser detalle */
+    line-height: 1.6;
+    color: var(--text-main);
+    word-wrap: break-word;
+    white-space: pre-wrap; /* Respeta los saltos de línea */
+}
+
+.btn-like {
+    background: transparent;
+    border: none;
+    color: var(--text-dim);
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 15px;
+    border-radius: 30px;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.btn-like:hover {
+    background-color: rgba(255, 69, 0, 0.1); /* Color naranja/fuego sutil */
+    color: #ff4500;
+}
+
+.btn-like i {
+    color: #ff4500; /* El fuego siempre naranja */
 }

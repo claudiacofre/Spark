@@ -1,20 +1,31 @@
-<div class="container">
-    <div class="navigation-back">
-        <a href="/">&larr; Volver al inicio.</a>
+<div class="main-content">
+    <div class="navigation-back mb-4">
+        <a href="/feed" class="text-decoration-none btn-back">
+            <i class="bi bi-arrow-left"></i> Volver al Feed
+        </a>
     </div>
 
-    <article class="spark-detail-card">
-        <div class="card-header">
-            <span class="user-handle">@{{spark.username}}</span>
+    <article class="spark-detail-card shadow-lg">
+        <div class="card-header-detail">
+            <div class="user-info">
+                <div class="avatar-sm">@</div>
+                <span class="user-handle">{{spark.username}}</span>
+            </div>
             <small class="timestamp">{{formatDate spark.created_at}}</small>
         </div>
         
-        <div class="spark-body">
+        <div class="spark-body-detail">
             <p>{{spark.content}}</p>
         </div>
 
+        <hr class="separator">
+
         <div class="card-footer-actions">
-            <span>🔥 {{spark.likes}} Chispazos</span>
+            <button class="btn-like">
+                <i class="bi bi-fire"></i> 
+                <span>{{spark.likes}} Chispazos </span>
+            </button>
         </div>
     </article>
 </div>
+
