@@ -114,6 +114,29 @@ export const getAllUsers = async (req, res) => {
     }
 };
 
+// --- OBTENER LOS USUARIOS EN JSON ---
+export const getUsersJSON = async (req, res) => {
+    try {
+        // En el futuro aquí harás: const users = await User.findAll();
+        // Por ahora, usemos datos de prueba (Mock Data)
+        const users = [
+            { id: 1, username: "claudia", role: "admin", bio: "Full Stack Trainee" },
+            { id: 2, username: "pedro_js", role: "user", bio: "Aprendiendo Backend" },
+            { id: 3, username: "spark_bot", role: "bot", bio: "¡Hola! Soy la chispa oficial." }
+        ];
+
+        // Enviamos el JSON con un status 200 (OK)
+        res.status(200).json(users);
+
+    } catch (error) {
+        console.error("Error al obtener usuarios:", error);
+        res.status(500).json({ 
+            status: "error", 
+            message: "No se pudieron obtener los datos de los usuarios" 
+        });
+    }
+};
+
 // --- OBTENER USUARIO CON SUS CHISPAS ---
 export const getUserWithSparks = async (req, res) => {
     try {

@@ -3,6 +3,6 @@ import { getStatus } from '../controllers/app.controller.js';
 
 const router = Router();
 
-router.get('/status', getStatus); // Status técnico (JSON)
+router.use('/status', getStatus); // Status técnico (JSON)
 
 export default router;
