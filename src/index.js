@@ -10,7 +10,6 @@ const __dirname = path.dirname(__filename);
 
 // --- IMPORTACIONES DE PROYECTO ---
 import sequelize from "./config/database.js"; // Conector ORM para bases de datos.
-import { User, Spark } from "./models/index.js";
 import mainRouter from "./routes/main.router.js"; // Implementación de Routing para definir rutas de la app.
 import loggerMiddleware, { simularAccesos } from "./middlewares/logger.js"; // Función Middleware que se ejecuta antes de la respuesta.
 import { formatDate } from "./config/hbs-helpers.js";
@@ -38,13 +37,13 @@ app.set("views", path.join(__dirname, "views"));
 
 // --- MIDDLEWARES ---
 app.use(express.json()); // Permite procesar datos en formato JSON en las peticiones HTTP .
+app.use(express.urlencoded({ extended: true })); // Middleware para leer datos de formularios (POST)
 app.use(express.static(path.join(__dirname, "../public"))); // Sirve archivos estáticos (CSS, JS cliente) desde la carpeta pública.
 app.use(loggerMiddleware); // Registra cada actividad en un archivo plano. Aplica el logger globalmente.
-app.use(express.urlencoded({ extended: true })); // Middleware para leer datos de formularios (POST)
+
 
 // --- RUTAS ---  Conecta el sistema de ruteo principal de la aplicación.
 app.use("/", mainRouter);
-
 
 
 // --- ARRANQUE DEL SERVIDOR Y LA BASE DE DATOS ---
@@ -53,7 +52,7 @@ const startServer = async () => {
     // Sincroniza los modelos con la base de datos (Preparación para la evaluación del Módulo 7).
     await sequelize.sync({ force: false});
 
-    // --- Ejecutar simulación de logs (Lección 5) ---
+    // --- Ejecutar simulación de 3 logs  ---
     await simularAccesos();
 
     // Inicia el servidor Node.js basado en el motor V8. (Solo una vez y después de la BdD)
