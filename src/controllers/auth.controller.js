@@ -1,7 +1,12 @@
-// Render login
+import { createUser, findUserByEmail } from "../services/user.service.js";
+
+// ----------------------
+// VISTAS
+// ----------------------
+
 export const renderLogin = (req, res) => {
   try {
-    res.render("auth/login", {
+    res.render("auth/login", { // Render login
       title: "Iniciar Sesión",
     });
   } catch (error) {
@@ -9,9 +14,7 @@ export const renderLogin = (req, res) => {
     res.status(500).send("Error interno del servidor");
   }
 };
-
-// Render register
-export const renderRegister = (req, res) => {
+export const renderRegister = (req, res) => { // Render register
   try {
     res.render("auth/register", {
       title: "Únete a Spark",
@@ -22,30 +25,80 @@ export const renderRegister = (req, res) => {
   }
 };
 
-// Registro (temporal)
+// ----------------------
+// REGISTER REAL (DB)
+// ----------------------
+
 export const registerUser = async (req, res) => {
   try {
-    const { username, email } = req.body;
+    const { username, email, password } = req.body;
 
-    console.log(`Registrando a: ${username} (${email})`);
+    // Validación
+    if (!username || !email || !password) {
+      return res.status(400).json({
+        success: false,
+        message: "Todos los campos son obligatorios",
+      });
+    }
 
-    res.redirect("/login");
+    // Verificar si existe
+    const existingUser = await findUserByEmail(email);
+
+    if (existingUser) {
+      return res.status(400).json({
+        success: false,
+        message: "El usuario ya existe",
+      });
+    }
+
+    // Crear usuario
+    const newUser = await createUser({ username, email, password });
+
+    // Guardar sesión
+    req.session.user = {
+      id: newUser.id,
+      username: newUser.username,
+      email: newUser.email,
+    };
+
+    // Redirigir
+    res.redirect("/feed");
+
   } catch (error) {
-    console.error("Error en registro:", error);
+    console.error("Error en registerUser:", error);
+
     res.status(500).json({
       success: false,
-      message: "No se pudo crear la cuenta",
+      message: "Error al registrar usuario",
     });
   }
 };
 
-// Login (temporal)
+// ----------------------
+// LOGIN REAL
+// ----------------------
+
 export const loginAPI = async (req, res) => {
   try {
-    res.json({
-      success: true,
-      message: "Logueado con éxito",
-    });
+    const { email, password } = req.body;
+
+    const user = await findUserByEmail(email);
+
+    if (!user || user.password !== password) {
+      return res.status(401).json({
+        success: false,
+        message: "Credenciales inválidas",
+      });
+    }
+
+    req.session.user = {
+      id: user.id,
+      username: user.username,
+      email: user.email,
+    };
+
+    res.redirect("/feed");
+
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -54,7 +107,10 @@ export const loginAPI = async (req, res) => {
   }
 };
 
-// Logout
+// ----------------------
+// LOGOUT
+// ----------------------
+
 export const logoutAPI = (req, res) => {
   if (req.session) {
     req.session.destroy((err) => {
