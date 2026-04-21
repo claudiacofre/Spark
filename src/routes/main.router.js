@@ -8,19 +8,19 @@ import appRouter from './app.router.js';
 
 const router = Router();
 
-// 🌐 VISTAS
+// VISTAS
 router.use('/', viewsRouter);
 
-// 🔐 API AUTH
+// API AUTH
 router.use('/api/auth', authRouter);
 
-// 👤 API USERS
+//  API USERS
 router.use('/api/users', userRouter);
 
-// 🔥 API SPARKS
+// API SPARKS
 router.use('/api/sparks', sparkRouter);
 
-// ⚙️ STATUS
+// STATUS
 router.use('/api', appRouter);
 
 export default router;
