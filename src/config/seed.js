@@ -1,35 +1,63 @@
 import sequelize from "./database.js";
-import Spark from "../models/spark.js";
-import User from "../models/user.js"; 
+import Spark from "../models/spark.models.js";
+import User from "../models/user.models.js";
+import bcrypt from "bcrypt";
 
 const seedDatabase = async () => {
   try {
     await sequelize.authenticate(); // Conectar y sincronizar
     console.log("Conexión establecida para el sembrado. 🌱");
 
-    await sequelize.sync({ force: false }); 
-    console.log("Tablas sincronizadas o creadas si no existían. 🔄");
+    await sequelize.sync({ force: false });
 
-    // ---  Limpieza Total ---
+    // --- LIMPIEZA ---
     await Spark.destroy({ where: {}, truncate: true, cascade: true });
     await User.destroy({ where: {}, truncate: true, cascade: true });
     console.log("Base de datos limpiada. 🗑️");
 
-    // ---  Carga de Usuarios  ---
+    // 🔐 HASHEAR PASSWORDS
+    const passwordAdmin = await bcrypt.hash("Abc123#", 10);
+    const passwordUser = await bcrypt.hash("Abc123#", 10);
+
+    const password1 = await bcrypt.hash("password123", 10);
+    const password2 = await bcrypt.hash("secure456", 10);
+
+    // --- USUARIOS ---
     const initialUsers = [
-      { username: "Claudia", email: "claudia@spark.com", password: "password123" },
-      { username: "Eduardo", email: "eduardo@gmail.com", password: "secure456" },
-      { username: "Catalina", email: "catalina@icloud.com", password: "test789" }
+      {
+        username: "admin",
+        email: "administrador@mail.com",
+        password: passwordAdmin,
+        role: "admin",
+      },
+      {
+        username: "user",
+        email: "user@mail.com",
+        password: passwordUser,
+        role: "user",
+      },
+      {
+        username: "Claudia",
+        email: "claudia@spark.com",
+        password: password1,
+      },
+      {
+        username: "Eduardo",
+        email: "eduardo@gmail.com",
+        password: password2,
+      },
     ];
 
     await User.bulkCreate(initialUsers);
-    console.log("Se han registrado 3 Usuarios semilla con éxito. ✅");
+    console.log("Usuarios creados. 👥");
 
-    // ---  Carga de Chispas ---
-    const initialSparks = [ // Chispas de prueba (Chispas iniciales)
+    // --- CHISPAS ---
+    const initialSparks = [
       { content: "Probando que tal esta spark...", username: "Eduardo" },
-      { content: "¡Bienvenidos a Spark! Mi primera chispa.", username: "Claudia" },
-      
+      {
+        content: "¡Bienvenidos a Spark! Mi primera chispa.",
+        username: "Claudia",
+      },
     ];
 
     await Spark.bulkCreate(initialSparks);
@@ -37,7 +65,7 @@ const seedDatabase = async () => {
 
     process.exit(0);
   } catch (error) {
-    console.error("Error en el proceso de seed: ❌", error);
+    console.error("Error en el seed. ❌", error);
     process.exit(1);
   }
 };
