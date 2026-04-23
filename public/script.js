@@ -1,48 +1,65 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // ELEMENTOS DEL DOM
     const btnPublish = document.getElementById('btnPublish');
     const contentInput = document.getElementById('sparkContent');
     const fileInput = document.getElementById('fileInput');
-    const fileName = document.getElementById('fileName');
     const btnUpload = document.getElementById('btnUpload');
     const uploadForm = document.getElementById('uploadForm');
     const uploadMessage = document.getElementById('uploadMessage');
+    const avatarPreview = document.getElementById('avatarPreview');
 
- if (fileInput) {
-        // Al seleccionar archivo, mostramos el botón de confirmar
+    // --- 1. LÓGICA DE SUBIDA DE FOTO DE PERFIL (MÓDULO 8) ---
+    if (fileInput && uploadForm) {
+        // Mostrar botón de confirmación cuando se elige un archivo
         fileInput.addEventListener('change', () => {
             if (fileInput.files.length > 0) {
                 btnUpload.classList.remove('d-none');
+                if (uploadMessage) uploadMessage.innerHTML = ''; 
             }
         });
 
-        // Enviar el archivo
+        // Enviar el archivo al servidor
         uploadForm.addEventListener('submit', async (e) => {
             e.preventDefault();
+            
             const formData = new FormData();
             formData.append('image', fileInput.files[0]);
 
             try {
-                uploadMessage.innerHTML = '<span class="text-info">Subiendo...</span>';
+                uploadMessage.innerHTML = '<span class="text-info">Subiendo archivo... ⏳</span>';
+                
                 const response = await fetch('/api/users/upload', {
                     method: 'POST',
                     body: formData
                 });
 
+                const result = await response.json();
+
                 if (response.ok) {
-                    uploadMessage.innerHTML = '<span class="text-success">¡Subida con éxito!</span>';
-                    setTimeout(() => window.location.reload(), 1000);
+                    // CAMBIO VISUAL INMEDIATO: Actualiza el círculo con la nueva foto
+                    if (avatarPreview) {
+                        avatarPreview.src = result.data.url;
+                    }
+                    
+                    uploadMessage.innerHTML = '<span class="text-success">¡Foto actualizada con éxito! ✨</span>';
+                    btnUpload.classList.add('d-none'); // Esconde el botón tras subir
+                    
+                    // Opcional: recargar después de un momento para asegurar persistencia
+                    // setTimeout(() => window.location.reload(), 2000);
                 } else {
-                    uploadMessage.innerHTML = '<span class="text-danger">Error al subir</span>';
+                    uploadMessage.innerHTML = `<span class="text-danger">Error: ${result.message}</span>`;
                 }
             } catch (err) {
-                uploadMessage.innerHTML = '<span class="text-danger">Error de conexión</span>';
+                console.error("Error en la subida:", err);
+                uploadMessage.innerHTML = '<span class="text-danger">Error de conexión con el servidor</span>';
             }
         });
     }
 
+    // --- 2. LÓGICA DE PUBLICAR SPARKS (CHISPAS) ---
     if (btnPublish && contentInput) {
-        btnPublish.addEventListener('click', async (event) => {
-            event.preventDefault(); // Evita que el formulario se envíe de la forma vieja
+        btnPublish.addEventListener('click', async (e) => {
+            e.preventDefault();
             
             const content = contentInput.value.trim();
             if (!content) return alert("¡La chispa no puede estar vacía! ✨");
@@ -55,41 +72,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 if (response.ok) {
-                    contentInput.value = ''; // Limpia el texto
-                    // LA MAGIA: Recarga la página actual para que Handlebars pinte todo perfecto
-                    window.location.reload(); 
+                    contentInput.value = ''; // Limpia el textarea
+                    window.location.reload(); // Recarga para mostrar la nueva chispa
                 } else {
                     alert("Hubo un problema al publicar. Inténtalo de nuevo.");
                 }
             } catch (err) {
-                console.error("Error de conexión:", err);
-                alert("No se pudo conectar con el servidor.");
-            }
-        });
-    }
-
-
-    // 2. Función para publicar (POST)
-    if (btnPublish) {
-        btnPublish.addEventListener('click', async (e) => {
-            e.preventDefault(); // IMPORTANTE: evita que el form recargue solo
-            
-            const content = contentInput.value.trim();
-            if (!content) return alert("¡Escribe algo!");
-
-            try {
-                const response = await fetch('/api/sparks/publish', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ content })
-                });
-
-                if (response.ok) {
-                    contentInput.value = ''; // Limpiamos el texto
-                    loadSparks(); // Refrescamos el muro sin recargar toda la página
-                }
-            } catch (err) {
                 console.error("Error al publicar:", err);
+                alert("No se pudo conectar con el servidor.");
             }
         });
     }
