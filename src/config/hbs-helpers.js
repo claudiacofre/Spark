@@ -14,3 +14,7 @@ export const formatDate = (date) => {
     });
     return `${hora} del ${fecha}`;
 };
+
+export const ifEquals = (a, b, options) => {
+  return a === b ? options.fn(this) : options.inverse(this);
+};
