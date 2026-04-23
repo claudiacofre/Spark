@@ -1,46 +1,46 @@
 <div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-12 col-md-8 col-lg-6" style="max-width: 700px;">
-            <div class="settings-card shadow">
-                <div class="card-header-spark p-4">
-                    <h2 class="h4 fw-bold mb-1">
-                        <i class="bi bi-person-gear me-2 text-primary"></i>Configuración
-                    </h2>
-                    <p class="text-muted small mb-0">Actualiza tu información de perfil.</p>
-                </div>
-                
-                <div class="card-body p-4">
-                    <form action="/api/users/update" method="POST">
-                        
-                        <div class="mb-3">
-                            <label for="username" class="form-label small fw-bold">Nombre de usuario</label>
-                            <div class="input-group">
-                                <span class="input-group-text bg-dark border-secondary text-primary">@</span>
-                                <input type="text" class="form-control bg-dark text-white border-secondary" 
-                                       id="username" name="username" value="{{user.username}}" required>
-                            </div>
-                        </div>
+            <div class="settings-card shadow bg-dark text-white border-secondary p-4">
+                <h2 class="h4 fw-bold mb-4 border-bottom border-secondary pb-2">
+                    <i class="bi bi-person-gear me-2 text-primary"></i>Configuración
+                </h2>
 
-                        <div class="mb-3">
-                            <label for="email" class="form-label small fw-bold">Correo electrónico</label>
-                            <input type="email" class="form-control bg-dark text-white border-secondary" 
-                                   id="email" name="email" value="{{user.email}}" required>
-                        </div>
+                <div class="mb-5 text-center p-3 border border-secondary rounded">
+                    <h5 class="small fw-bold text-uppercase text-muted mb-3">Foto de Perfil</h5>
+                    
+                    <div class="mb-3">
+                        {{#if user.avatar}}
+                            <img src="{{user.avatar}}" id="avatarPreview" class="rounded-circle border border-primary p-1" style="width: 100px; height: 100px; object-fit: cover;">
+                        {{else}}
+                            <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center mx-auto" style="width: 100px; height: 100px; font-size: 2rem;">✨</div>
+                        {{/if}}
+                    </div>
 
-                        <div class="mb-4">
-                            <label for="bio" class="form-label small fw-bold">Biografía</label>
-                            <textarea class="form-control bg-dark text-white border-secondary" 
-                                      id="bio" name="bio" rows="4" placeholder="Cuéntanos algo sobre ti...">{{user.bio}}</textarea>
-                        </div>
-
-                        <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-primary rounded-pill py-2 fw-bold">
-                                Guardar Cambios
-                            </button>
-                            <a href="/feed" class="btn btn-link text-muted btn-sm">Cancelar</a>
-                        </div>
+                    <form id="uploadForm">
+                        <input type="file" id="fileInput" name="image" class="form-control form-control-sm bg-dark text-white border-secondary mb-2" accept="image/*">
+                        <button type="submit" id="btnUpload" class="btn btn-primary btn-sm w-100 rounded-pill d-none">
+                            Confirmar Subida
+                        </button>
                     </form>
+                    <div id="uploadMessage" class="small mt-2"></div>
                 </div>
+
+                <form action="/api/users/update" method="POST">
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Nombre de usuario</label>
+                        <input type="text" class="form-control bg-dark text-white border-secondary" name="username" value="{{user.username}}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Correo electrónico</label>
+                        <input type="email" class="form-control bg-dark text-white border-secondary" name="email" value="{{user.email}}" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label small fw-bold">Biografía</label>
+                        <textarea class="form-control bg-dark text-white border-secondary" name="bio" rows="3">{{user.bio}}</textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 rounded-pill fw-bold">Guardar Cambios</button>
+                </form>
             </div>
         </div>
     </div>
