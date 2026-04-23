@@ -145,7 +145,7 @@ export const loginAPI = async (req, res) => {
 // LOGOUT
 // ----------------------
 
-// 🔹 API
+// API
 export const logoutAPI = (req, res) => {
   res.clearCookie("token");
 
@@ -155,7 +155,7 @@ export const logoutAPI = (req, res) => {
   });
 };
 
-// 🔹 VIEW
+// VIEW
 export const logoutView = (req, res) => {
   res.clearCookie("token");
   res.redirect("/login");
