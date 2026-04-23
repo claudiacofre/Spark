@@ -70,7 +70,7 @@ export const postSpark = async (req, res) => {
   } catch (error) {
     console.error("❌ Error al guardar chispa:", error.message);
 
-    res.status(400).send(error.message || "Error al crear chispa ❌");
+    res.status(400).json(error.message || "Error al crear chispa ❌");
   }
 };
 
