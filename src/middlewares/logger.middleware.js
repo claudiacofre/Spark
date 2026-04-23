@@ -5,7 +5,7 @@ const logFilePath = path.resolve('src/logs/log.txt'); // Uso path.resolve para a
 
 // --- Función para simular 3 accesos (Lección 5) ---
 // Asegúrate de tener estas importaciones al inicio del archivo logger.js
-import { User, Spark } from '../models/index.js';
+import { User, Spark } from '../models/index.models.js';
 
 export const simularAccesos = async () => {
     const rutasSimuladas = ['/', '/status', '/public/index.html'];
@@ -13,13 +13,13 @@ export const simularAccesos = async () => {
     try {
         // 1. Lógica para la Base de Datos (Lección 6 - Relaciones)
         const [admin] = await User.findOrCreate({
-            where: { username: 'AdminSpark' },
+            where: { username: 'admin' },
             defaults: { email: 'admin@spark.com', password: '123' }
         });
 
         await Spark.create({ 
             username: admin.username, 
-            content: "El sistema ha iniciado correctamente." 
+            content: "El sistema se restableció correctamente." 
         });
 
         // 2. Lógica para Archivos Planos (Lección 5 - Logs en .txt)

@@ -3,17 +3,17 @@ import { getSparksByUser } from "../services/spark.service.js";
 // --- PERFIL ---
 export const getProfile = async (req, res) => {
   try {
-    const username = req.session?.user?.username || "Claudia";
+    const username = req.user.username;
 
     const userSparks = await getSparksByUser(username);
 
     res.render("profile", {
-      user: { username },
+      user: req.user, 
       userSparks,
     });
+
   } catch (error) {
-    console.error("Error al cargar perfil:", error);
-    res.status(500).send("Error al cargar el perfil ❌");
+    res.status(500).send("Error al cargar perfil ❌");
   }
 };
 
