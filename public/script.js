@@ -43,9 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     uploadMessage.innerHTML = '<span class="text-success">¡Foto actualizada con éxito! ✨</span>';
                     btnUpload.classList.add('d-none'); // Esconde el botón tras subir
-                    
-                    // Opcional: recargar después de un momento para asegurar persistencia
-                    // setTimeout(() => window.location.reload(), 2000);
+                   
                 } else {
                     uploadMessage.innerHTML = `<span class="text-danger">Error: ${result.message}</span>`;
                 }
