@@ -11,8 +11,10 @@ const __dirname = path.dirname(__filename);
 // --- IMPORTACIONES DE PROYECTO ---
 import sequelize from "./config/database.js"; // Conector ORM para bases de datos.
 import mainRouter from "./routes/main.router.js"; // Implementación de Routing para definir rutas de la app.
-import loggerMiddleware, { simularAccesos } from "./middlewares/logger.js"; // Función Middleware que se ejecuta antes de la respuesta.
-import { formatDate } from "./config/hbs-helpers.js";
+import loggerMiddleware, { simularAccesos } from "./middlewares/logger.middleware.js"; // Función Middleware que se ejecuta antes de la respuesta.
+import { formatDate, ifEquals } from "./config/hbs-helpers.js";
+import cookieParser from "cookie-parser";
+import { optionalAuth } from "./middlewares/auth.middleware.js";
 
 const app = express();
 
@@ -28,7 +30,8 @@ app.engine(
     layoutsDir: path.join(__dirname, "views/layouts"),
     partialsDir: path.join(__dirname, "views/partials"),
     helpers: {
-      formatDate
+      formatDate,
+      ifEquals, 
     },
   }),
 );
@@ -36,11 +39,20 @@ app.set("view engine", "hbs");
 app.set("views", path.join(__dirname, "views"));
 
 // --- MIDDLEWARES ---
-app.use(express.json()); // Permite procesar datos en formato JSON en las peticiones HTTP .
-app.use(express.urlencoded({ extended: true })); // Middleware para leer datos de formularios (POST)
-app.use(express.static(path.join(__dirname, "../public"))); // Sirve archivos estáticos (CSS, JS cliente) desde la carpeta pública.
 app.use(loggerMiddleware); // Registra cada actividad en un archivo plano. Aplica el logger globalmente.
 
+app.use(express.json()); // Permite procesar datos en formato JSON en las peticiones HTTP .
+app.use(express.urlencoded({ extended: true })); // Middleware para leer datos de formularios (POST)
+
+app.use(cookieParser());
+app.use(optionalAuth);
+
+app.use((req, res, next) => {
+  res.locals.user = req.user || null;
+  next();
+});
+
+app.use(express.static(path.join(__dirname, "../public"))); // Sirve archivos estáticos (CSS, JS cliente) desde la carpeta pública.
 
 // --- RUTAS ---  Conecta el sistema de ruteo principal de la aplicación.
 app.use("/", mainRouter);
@@ -50,7 +62,7 @@ app.use("/", mainRouter);
 const startServer = async () => {
   try {
     // Sincroniza los modelos con la base de datos (Preparación para la evaluación del Módulo 7).
-    await sequelize.sync({ force: false});
+    await sequelize.sync({ force: false });
 
     // --- Ejecutar simulación de 3 logs  ---
     await simularAccesos();
