@@ -1,15 +1,16 @@
 <div class="main-container">
-    <section class="publish-box">
-        <form action="/api/sparks" method="POST">
-            <textarea 
-                name="content" 
-                placeholder="¿Listo para encender nuevas ideas?" 
-                required 
-                maxlength="300"
-            ></textarea>
-            <button type="submit" id="btnPublish">Chispas!✨</button>
-        </form>
-    </section>
+<section class="publish-box">
+    <form id="sparkForm"> 
+        <textarea 
+            id="sparkContent"  {{!-- ¡ESTO ES LO QUE FALTABA! --}}
+            name="content" 
+            placeholder="¿Listo para encender nuevas ideas?" 
+            required 
+            maxlength="300"
+        ></textarea>
+        <button type="submit" id="btnPublish">Chispas!✨</button>
+    </form>
+</section>
 
     <hr class="separator" />
 
