@@ -1,4 +1,7 @@
+import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 import { createUser, findUserByEmail } from "../services/user.service.js";
+import { generateToken } from "../utils/jwt.js";
 
 // ----------------------
 // VISTAS
@@ -77,51 +80,83 @@ export const registerUser = async (req, res) => {
 // ----------------------
 // LOGIN REAL
 // ----------------------
-
 export const loginAPI = async (req, res) => {
   try {
+    // 👇 1. VER QUÉ LLEGA DEL FORM
+    console.log("BODY:", req.body);
+
     const { email, password } = req.body;
 
+    // 👇 2. VER SI ENCUENTRA EL USUARIO
     const user = await findUserByEmail(email);
+    console.log("USER:", user);
 
-    if (!user || user.password !== password) {
-      return res.status(401).json({
+    if (!user) {
+      return res.status(404).json({
         success: false,
-        message: "Credenciales inválidas",
+        message: "Usuario no encontrado",
       });
     }
 
-    req.session.user = {
-      id: user.id,
-      username: user.username,
-      email: user.email,
-    };
+    // 👇 3. VER PASSWORDS (temporal)
+    console.log("PASSWORD INGRESADA:", password);
+    console.log("PASSWORD EN DB:", user.password);
+
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    // 👇 4. RESULTADO DEL MATCH
+    console.log("MATCH:", isMatch);
+
+    if (!isMatch) {
+      return res.status(401).json({
+        success: false,
+        message: "Contraseña incorrecta",
+      });
+    }
+
+    // 👇 5. JWT
+    const token = jwt.sign(
+      {
+        id: user.id,
+        username: user.username,
+        role: user.role,
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" }
+    );
+
+    res.cookie("token", token, {
+      httpOnly: true,
+    });
 
     res.redirect("/feed");
 
   } catch (error) {
+    // 👇 6. ERROR REAL
+    console.error("❌ LOGIN ERROR REAL:", error);
+
     res.status(500).json({
       success: false,
-      error: error.message,
+      message: "Error en login",
     });
   }
 };
-
 // ----------------------
 // LOGOUT
 // ----------------------
 
+// 🔹 API
 export const logoutAPI = (req, res) => {
-  if (req.session) {
-    req.session.destroy((err) => {
-      if (err) {
-        console.error("Error al cerrar sesión:", err);
-        return res.status(500).send("No se pudo cerrar la sesión");
-      }
+  res.clearCookie("token");
 
-      res.redirect("/login?message=logout_success");
-    });
-  } else {
-    res.redirect("/login");
-  }
+  res.json({
+    success: true,
+    message: "Logout exitoso",
+  });
+};
+
+// 🔹 VIEW
+export const logoutView = (req, res) => {
+  res.clearCookie("token");
+  res.redirect("/login");
 };
