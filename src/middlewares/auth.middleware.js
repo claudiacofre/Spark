@@ -27,11 +27,11 @@ export const validateApiToken = (req, res, next) => {
 // 2. PARA PROTEGER VISTAS (Tu código original con redirect)
 export const authRequired = (req, res, next) => {
   try {
-    const token = req.cookies.token;
+    const token = req.cookies.token; // Extraer el token de las cookies
     if (!token) return res.redirect("/login");
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded;
+    const decoded = jwt.verify(token, process.env.JWT_SECRET); // Verificar el token
+    req.user = decoded; // INYECTAR EL USUARIO EN EL REQUEST 
     next();
   } catch (error) {
     return res.redirect("/login");
