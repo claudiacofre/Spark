@@ -1,4 +1,3 @@
-
 // --- RUTAS DE NAVEGACIÓN (HTML/Status) ---
 // Ruta de Inicio HTML optimizada con motor de plantillas HBS
 export const getIndex = (req, res) => {
@@ -6,7 +5,7 @@ export const getIndex = (req, res) => {
     res.render("index", { title: "Bienvenidos a Spark" });
 };
 
-// --- Ruta de Status (Verificación técnica) ---  
+// --- Ruta de Status (Verificación técnica) ---  Devuelve JSON 
 export const getStatus = (req, res) => {
   res.json({
     status: "ok",
