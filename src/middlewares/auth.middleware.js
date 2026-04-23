@@ -1,22 +1,37 @@
 import jwt from "jsonwebtoken";
 import { verifyToken } from "../utils/jwt.js";
 
-// ----------------------
-// AUTH REQUIRED MIDDLEWARE
-// ----------------------
-export const authRequired = (req, res, next) => {
-  try {
+// 1. PARA PROTEGER RUTAS DE API (Devuelve JSON)
+export const validateApiToken = (req, res, next) => {
     const token = req.cookies.token;
 
     if (!token) {
-      return res.redirect("/login");
+        return res.status(401).json({ 
+            status: "error", 
+            message: "No autorizado. Por favor, inicia sesión." 
+        });
     }
 
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = decoded; // Guardamos id y username del usuario
+        next();
+    } catch (error) {
+        return res.status(403).json({ 
+            status: "error", 
+            message: "Token inválido o expirado." 
+        });
+    }
+};
+
+// 2. PARA PROTEGER VISTAS (Tu código original con redirect)
+export const authRequired = (req, res, next) => {
+  try {
+    const token = req.cookies.token;
+    if (!token) return res.redirect("/login");
+
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-    // 👉 aquí guardamos el usuario en la request
     req.user = decoded;
-
     next();
   } catch (error) {
     return res.redirect("/login");

@@ -6,6 +6,8 @@ import {
   getUserWithSparksService,
 } from "../services/user.service.js";
 
+import User from '../models/user.models.js';
+
 // --- REGISTRO ---
 export const registerWithWelcomeSpark = async (req, res) => {
   try {
@@ -123,5 +125,26 @@ export const getUserWithSparks = async (req, res) => {
       error: "Error al recuperar relación ❌",
     });
   }
+};
+
+export const updateProfile = async (req, res) => {
+    try {
+      console.log("BODY:", req.body); // Verifica que lleguen username, email y bio
+        console.log("USER ID:", req.user?.id); // Verifica que el toke
+        const { username, email, bio } = req.body;
+        const userId = req.user.id; // Obtenido del token por el middleware
+
+        // 1. Actualizamos en la base de datos
+        await User.update(
+            { username, email, bio },
+            { where: { id: userId } }
+        );
+
+        res.redirect('/profile');
+
+    } catch (error) {
+     console.error("DETALLE DEL ERROR:", error); // MIRA ESTO EN LA TERMINAL DE VS CODE
+        res.status(500).send("Error al actualizar el perfil");
+    }
 };
 
