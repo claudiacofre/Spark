@@ -1,4 +1,4 @@
-import Spark from "../models/spark.js";
+import Spark from "../models/spark.models.js";
 
 // Normalizador (evita repetir esto en todos lados)
 const normalizeSpark = (spark) => {

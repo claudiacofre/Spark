@@ -1,6 +1,6 @@
 import sequelize from "../config/database.js";
 import bcrypt from "bcrypt";
-import { User, Spark } from "../models/index.js";
+import { User, Spark } from "../models/index.models.js";
 
 // ----------------------
 // HELPERS
@@ -13,7 +13,7 @@ export const createWelcomeSpark = async (username, transaction) => {
       username,
       content: `¡Hola! Soy ${username} y acabo de unirme a Spark. ✨`,
     },
-    { transaction }
+    { transaction },
   );
 };
 
@@ -33,7 +33,11 @@ export const createUser = async ({ username, email, password }) => {
 // ----------------------
 // CREATE USER + WELCOME SPARK (ONBOARDING)
 // ----------------------
-export const createUserWithWelcomeSpark = async ({ username, email, password }) => {
+export const createUserWithWelcomeSpark = async ({
+  username,
+  email,
+  password,
+}) => {
   const t = await sequelize.transaction();
 
   try {
@@ -46,7 +50,7 @@ export const createUserWithWelcomeSpark = async ({ username, email, password }) 
         email,
         password: hashedPassword,
       },
-      { transaction: t }
+      { transaction: t },
     );
 
     // 2. Crear chispa de bienvenida
