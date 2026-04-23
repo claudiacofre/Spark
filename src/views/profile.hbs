@@ -1,6 +1,12 @@
 <div class="container">
     <div class="profile-header">
-        <div class="profile-avatar">✨</div>
+        <div class="profile-avatar-container">
+            {{#if user.avatar}}
+                <img src="{{user.avatar}}" alt="Avatar de {{user.username}}" class="profile-img">
+            {{else}}
+                <div class="profile-avatar-default">✨</div>
+            {{/if}}
+        </div>
         <div class="profile-info">
             <h2>@{{user.username}}</h2>
             <p>Rol: {{user.role}}</p>

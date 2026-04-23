@@ -1,4 +1,4 @@
-import User from '../models/user.models.js'; // Asegúrate de importar tu modelo
+import User from '../models/user.models.js'; 
 import path from 'path';
 
 export const uploadFile = async (req, res) => {
@@ -9,10 +9,20 @@ export const uploadFile = async (req, res) => {
             return res.status(400).json({ status: "error", message: "No se recibió archivo" });
         }
 
-        // La ruta que guardaremos (asumiendo que uploads está dentro de public)
+        // 1. Definimos la ruta
         const imageUrl = `/uploads/${req.file.filename}`;
 
-        // Respondemos ÉXITO (esto quita el 'Error de conexión' en el front)
+        // 2. PRIMERO guardamos en la base de datos y sesión
+        if (req.session && req.session.user) {
+            await User.update(
+                { avatar: imageUrl }, 
+                { where: { id: req.session.user.id } }
+            );
+            req.session.user.avatar = imageUrl; // Esto es vital para Handlebars
+            console.log("Base de datos actualizada con:", imageUrl);
+        }
+
+        // 3. POR ÚLTIMO respondemos al cliente
         return res.status(201).json({
             status: "success",
             message: "¡Imagen subida!",
